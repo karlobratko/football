@@ -1,5 +1,5 @@
 ﻿namespace Football.WinFormsUI {
-  partial class Main {
+  partial class MainForm {
     /// <summary>
     /// Required designer variable.
     /// </summary>

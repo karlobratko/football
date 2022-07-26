@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="En" xml:space="preserve">
-    <value>English</value>
+    <value>Engleski</value>
   </data>
   <data name="Hr" xml:space="preserve">
-    <value>Croatian</value>
+    <value>Hrvatski</value>
   </data>
 </root>
