@@ -118,64 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsmiSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="lblGoalsDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 17</value>
   </data>
-  <data name="tsmiSettings.Text" xml:space="preserve">
-    <value>Postavke</value>
+  <data name="lblGoalsDesc.Text" xml:space="preserve">
+    <value>Golovi:</value>
   </data>
-  <data name="tsmiPrint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 23</value>
+  <data name="lblYellowCardsDesc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 17</value>
   </data>
-  <data name="tsmiPrint.Text" xml:space="preserve">
-    <value>Printaj</value>
+  <data name="lblYellowCardsDesc.Text" xml:space="preserve">
+    <value>Žuti kartoni:</value>
   </data>
-  <data name="lblFavourtePlayers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 17</value>
+  <data name="lblGoals.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 93</value>
   </data>
-  <data name="lblFavourtePlayers.Text" xml:space="preserve">
-    <value>Omiljeni igrači:</value>
+  <data name="lblYellowCards.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 113</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 17</value>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>320, 148</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Igrači:</value>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>320, 148</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Rangirani igrači:</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 17</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Rangirane utakmice:</value>
-  </data>
-  <data name="lblChooseGender.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 17</value>
-  </data>
-  <data name="lblChooseGender.Text" xml:space="preserve">
-    <value>Spol:</value>
-  </data>
-  <data name="lblChooseCountry.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 17</value>
-  </data>
-  <data name="lblChooseCountry.Text" xml:space="preserve">
-    <value>Država:</value>
-  </data>
-  <data name="lblGender.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 74</value>
-  </data>
-  <data name="ddlCountry.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 31</value>
-  </data>
-  <data name="ddlCountry.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 24</value>
-  </data>
-  <data name="gbSimpleSettings.Text" xml:space="preserve">
-    <value>Informacije</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Nogomet</value>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 148</value>
   </data>
 </root>
