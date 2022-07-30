@@ -9,12 +9,14 @@ namespace Football.DAL.Models {
     public Language Language;
     public Gender Gender;
     public Tuple<Int32, Int32> Resolution;
+    public Country Country;
 
     public static Settings DEFAULT =>
       new Settings {
         Language = Language.En,
         Gender = Gender.Male,
-        Resolution = Tuple.Create(1000, 800)
+        Resolution = Tuple.Create(1000, 800),
+        Country = null
       };
 
     public static Settings Parse(String line) {
@@ -24,10 +26,11 @@ namespace Football.DAL.Models {
         Language = data.Length > 0 ? (Language)Enum.Parse(typeof(Language), data[0]) : DEFAULT.Language,
         Gender = data.Length > 1 ? (Gender)Enum.Parse(typeof(Gender), data[1]) : DEFAULT.Gender,
         Resolution = data.Length > 3 ? Tuple.Create(Int32.Parse(data[2]), Int32.Parse(data[3])) : DEFAULT.Resolution,
+        Country = data.Length > 4 ? Country.Parse(data[4]) : DEFAULT.Country
       };
     }
 
-    public override String ToString() => 
-      $"{Language:d}{DELIM}{Gender:d}{DELIM}{Resolution.Item1}{DELIM}{Resolution.Item2}";
+    public String FormatForFile() => 
+      $"{Language:d}{DELIM}{Gender:d}{DELIM}{Resolution.Item1}{DELIM}{Resolution.Item2}{DELIM}{Country?.FormatForFile()}";
   }
 }

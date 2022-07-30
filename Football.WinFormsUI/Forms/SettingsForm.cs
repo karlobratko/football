@@ -14,9 +14,11 @@ namespace Football.WinFormsUI.Forms {
   public partial class SettingsForm : Form {
     private readonly ISettingsRepository _settingsRepository = SettingsRepositoryFactory.GetRepository();
     private readonly Settings _settings;
+    private readonly Boolean _initialSettings;
 
-    public SettingsForm() {
+    public SettingsForm(Boolean initialSettings = false) {
       _settings = _settingsRepository.Load();
+      _initialSettings = initialSettings;
 
       Thread.CurrentThread.SetLanguage(_settings.Language);
       InitializeComponent();
@@ -44,8 +46,14 @@ namespace Football.WinFormsUI.Forms {
     }
 
     private void OpenMainForm() {
-      Visible = false;
-      new MainForm(_settings).ShowDialog();
+      if (_initialSettings) {
+        Visible = false;
+        _ = new MainForm().ShowDialog();
+      }
+      else {
+        DialogResult = DialogResult.OK;
+      }
+
       Close();
     }
 
@@ -53,7 +61,8 @@ namespace Football.WinFormsUI.Forms {
       _settingsRepository.Save(new Settings {
         Gender = rbMale.Checked ? Gender.Male : Gender.Female,
         Language = (Language)Enum.Parse(typeof(Language), ddlLanguage.SelectedValue.ToString()),
-        Resolution = _settings.Resolution
+        Resolution = _settings.Resolution,
+        Country = _settings.Country,
       });
 
       OpenMainForm();

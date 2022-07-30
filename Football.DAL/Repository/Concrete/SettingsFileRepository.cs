@@ -16,14 +16,14 @@ namespace Football.DAL.Repository.Concrete {
 
       if (!_settingsExists) {
         _ = Directory.CreateDirectory(DIR_PATH);
-        File.WriteAllText(FILE_PATH, Settings.DEFAULT.ToString());
+        File.WriteAllText(FILE_PATH, Settings.DEFAULT.FormatForFile());
       }
     }
 
     public Boolean Exists() => _settingsExists;
 
     public void Save(Settings settings) =>
-      File.WriteAllText(FILE_PATH, settings.ToString());
+      File.WriteAllText(FILE_PATH, settings.FormatForFile());
 
     public Settings Load() =>
       Settings.Parse(File.ReadAllText(FILE_PATH));

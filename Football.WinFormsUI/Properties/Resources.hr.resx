@@ -120,7 +120,31 @@
   <data name="En" xml:space="preserve">
     <value>Engleski</value>
   </data>
+  <data name="error-title" xml:space="preserve">
+    <value>Pogreška</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Žensko</value>
+  </data>
+  <data name="fetching-country-data" xml:space="preserve">
+    <value>Dohvaćam podatke o državama, pričekajte...</value>
+  </data>
+  <data name="fetching-football-data" xml:space="preserve">
+    <value>Dohvaćam podatke o utakmicama, pričekajte...</value>
+  </data>
+  <data name="fetching-success" xml:space="preserve">
+    <value>Podaci su uspješno dohvaćeni...</value>
+  </data>
   <data name="Hr" xml:space="preserve">
     <value>Hrvatski</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Muško</value>
+  </data>
+  <data name="player-captain" xml:space="preserve">
+    <value>Kapetan</value>
+  </data>
+  <data name="select-country" xml:space="preserve">
+    <value>Odaberite državu</value>
   </data>
 </root>
