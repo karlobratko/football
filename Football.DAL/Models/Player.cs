@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 
+using Football.Library.Models;
+
 using Newtonsoft.Json;
 
 namespace Football.DAL.Models {
+  [Serializable]
   public partial class Player {
+    private const Char DELIM = '|';
+
     [JsonProperty("name")]
     public String Name { get; set; }
 
@@ -39,6 +44,18 @@ namespace Football.DAL.Models {
       return hashCode;
     }
 
-    internal String FormatForFileLine() => $"{Name} {ImagePath}";
+    internal static Player Parse(String line) {
+      if (line.Length == 0) return null;
+      String[] data = line.Split(DELIM);
+
+      return new Player {
+        Name = data.Length > 0 ? data[0] : String.Empty,
+        Captain = data.Length > 1 && Boolean.Parse(data[1]),
+        ShirtNumber = data.Length > 2 ? Int32.Parse(data[2]) : -1,
+        Position = data.Length > 3 ? (Position)Enum.Parse(typeof(Position), data[3]) : Position.Defender
+      };
+    }
+
+    internal String FormatForFileLine() => $"{Name}{DELIM}{Captain}{DELIM}{ShirtNumber}{DELIM}{Position}";
   }
 }

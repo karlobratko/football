@@ -117,11 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="dnd-text" xml:space="preserve">
+    <value>Maknite nekog igrača iz liste omiljenih igrača.</value>
+  </data>
+  <data name="dnd-title" xml:space="preserve">
+    <value>Maksimalni broj omiljenih igrača</value>
+  </data>
   <data name="En" xml:space="preserve">
     <value>Engleski</value>
   </data>
   <data name="error-title" xml:space="preserve">
     <value>Pogreška</value>
+  </data>
+  <data name="exit-text" xml:space="preserve">
+    <value>Napuštate aplikaciju, želite li spremiti trenutne postavke?</value>
+  </data>
+  <data name="exit-title" xml:space="preserve">
+    <value>Napusti aplikaciju?</value>
+  </data>
+  <data name="favourites-add" xml:space="preserve">
+    <value>Dodaj u favorite</value>
+  </data>
+  <data name="favourites-remove" xml:space="preserve">
+    <value>Makni iz favorita</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>Žensko</value>
