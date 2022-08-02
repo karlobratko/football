@@ -61,6 +61,24 @@ namespace Football.WinFormsUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove player from list of favourite players..
+        /// </summary>
+        internal static string dnd_text {
+            get {
+                return ResourceManager.GetString("dnd-text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum number of favourite players.
+        /// </summary>
+        internal static string dnd_title {
+            get {
+                return ResourceManager.GetString("dnd-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string En {
@@ -75,6 +93,42 @@ namespace Football.WinFormsUI.Properties {
         internal static string error_title {
             get {
                 return ResourceManager.GetString("error-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to exit, do you want to save your changes before exiting?.
+        /// </summary>
+        internal static string exit_text {
+            get {
+                return ResourceManager.GetString("exit-text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit?.
+        /// </summary>
+        internal static string exit_title {
+            get {
+                return ResourceManager.GetString("exit-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add to favourites.
+        /// </summary>
+        internal static string favourites_add {
+            get {
+                return ResourceManager.GetString("favourites-add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove from favourites.
+        /// </summary>
+        internal static string favourites_remove {
+            get {
+                return ResourceManager.GetString("favourites-remove", resourceCulture);
             }
         }
         

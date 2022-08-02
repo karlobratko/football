@@ -124,7 +124,13 @@
   <data name="changeImageToolStripMenuItem.Text" xml:space="preserve">
     <value>Promijeni sliku</value>
   </data>
+  <data name="tsmiRemoveImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="tsmiRemoveImage.Text" xml:space="preserve">
+    <value>Obriši sliku</value>
+  </data>
   <data name="cmsPlayerControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 26</value>
+    <value>153, 48</value>
   </data>
 </root>

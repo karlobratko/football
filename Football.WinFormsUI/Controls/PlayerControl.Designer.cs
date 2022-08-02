@@ -41,9 +41,9 @@
       // 
       // pbPlayer
       // 
+      resources.ApplyResources(this.pbPlayer, "pbPlayer");
       this.pbPlayer.Image = global::Football.WinFormsUI.Properties.Resources.user;
       this.pbPlayer.InitialImage = global::Football.WinFormsUI.Properties.Resources.user;
-      resources.ApplyResources(this.pbPlayer, "pbPlayer");
       this.pbPlayer.Name = "pbPlayer";
       this.pbPlayer.TabStop = false;
       // 
@@ -69,24 +69,24 @@
       // 
       // pbFavourite
       // 
+      resources.ApplyResources(this.pbFavourite, "pbFavourite");
       this.pbFavourite.Image = global::Football.WinFormsUI.Properties.Resources.star;
       this.pbFavourite.InitialImage = global::Football.WinFormsUI.Properties.Resources.star;
-      resources.ApplyResources(this.pbFavourite, "pbFavourite");
       this.pbFavourite.Name = "pbFavourite";
       this.pbFavourite.TabStop = false;
       // 
       // cmsPlayerControl
       // 
+      resources.ApplyResources(this.cmsPlayerControl, "cmsPlayerControl");
       this.cmsPlayerControl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeImageToolStripMenuItem,
             this.tsmiRemoveImage});
       this.cmsPlayerControl.Name = "cmsPlayerControl";
-      resources.ApplyResources(this.cmsPlayerControl, "cmsPlayerControl");
       // 
       // changeImageToolStripMenuItem
       // 
-      this.changeImageToolStripMenuItem.Name = "changeImageToolStripMenuItem";
       resources.ApplyResources(this.changeImageToolStripMenuItem, "changeImageToolStripMenuItem");
+      this.changeImageToolStripMenuItem.Name = "changeImageToolStripMenuItem";
       this.changeImageToolStripMenuItem.Click += new System.EventHandler(this.ChangeImage);
       // 
       // tsmiRemoveImage
@@ -108,7 +108,6 @@
       this.Controls.Add(this.lblShirtNumber);
       this.Controls.Add(this.pbPlayer);
       this.Name = "PlayerControl";
-      this.Load += new System.EventHandler(this.PlayerControl_Load);
       ((System.ComponentModel.ISupportInitialize)(this.pbPlayer)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbFavourite)).EndInit();
       this.cmsPlayerControl.ResumeLayout(false);

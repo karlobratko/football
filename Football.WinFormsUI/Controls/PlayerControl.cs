@@ -7,7 +7,23 @@ using Football.Library.Helpers;
 
 namespace Football.WinFormsUI.Controls {
   public partial class PlayerControl : UserControl {
-    private Player Player { get; set; }
+    private Boolean _selected = false;
+
+    public event ImageChangedEvent OnImageChanged;
+    public event ImageRemovedEvent OnImageRemoved;
+
+    public Player Player { get; private set; }
+    public Boolean Selected {
+      get => _selected;
+      set {
+        _selected = value;
+        BackColor = _selected ? Color.DarkGray : Color.Transparent;
+      }
+    }
+    public String ImagePath {
+      get => ImageHelper.GetImagePath(Player.Name);
+      set => pbPlayer.ImageLocation = value;
+    }
 
     public PlayerControl(Player player) {
       InitializeComponent();
@@ -40,27 +56,40 @@ namespace Football.WinFormsUI.Controls {
 
         if (ofd.ShowDialog() == DialogResult.OK) {
           ImageHelper.ReplaceImage(fileName: Player.Name, path: ofd.FileName);
-          pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
-          tsmiRemoveImage.Enabled = true;
+          ChangeImage();
+          OnImageChanged?.Invoke(sender, new ImageChangedEventArgs { ImagePath = ImageHelper.GetImagePath(Player.Name), Player = Player });
         }
       }
       catch (Exception) {
         _ = MessageBox.Show("An Error Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
+    }
 
-      if (ImageHelper.ImageExists(Player.Name)) {
-        pbPlayer.Image = ImageHelper.LoadImage(Player.Name);
-      }
+    public void ChangeImage() {
+      pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
+      tsmiRemoveImage.Enabled = true;
     }
 
     private void RemoveImage(Object sender, EventArgs e) {
       ImageHelper.RemoveImage(Player.Name);
+      RemoveImage();
+      OnImageRemoved?.Invoke(sender, new ImageRemovedEventArgs { Player = Player });
+    }
+
+    public void RemoveImage() {
       pbPlayer.Image = (Image)Properties.Resources.ResourceManager.GetObject("user");
       tsmiRemoveImage.Enabled = false;
     }
 
-    private void PlayerControl_Load(Object sender, EventArgs e) {
-
+    public class ImageChangedEventArgs : EventArgs {
+      public String ImagePath { get; set; }
+      public Player Player { get; set; }
     }
+    public delegate void ImageChangedEvent(Object sender, ImageChangedEventArgs args);
+
+    public class ImageRemovedEventArgs : EventArgs {
+      public Player Player { get; set; }
+    }
+    public delegate void ImageRemovedEvent(Object sender, ImageRemovedEventArgs args);
   }
 }

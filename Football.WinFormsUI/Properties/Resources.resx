@@ -117,11 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="dnd-text" xml:space="preserve">
+    <value>Remove player from list of favourite players.</value>
+  </data>
+  <data name="dnd-title" xml:space="preserve">
+    <value>Maximum number of favourite players</value>
+  </data>
   <data name="En" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="error-title" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="exit-text" xml:space="preserve">
+    <value>You are about to exit, do you want to save your changes before exiting?</value>
+  </data>
+  <data name="exit-title" xml:space="preserve">
+    <value>Exit?</value>
+  </data>
+  <data name="favourites-add" xml:space="preserve">
+    <value>Add to favourites</value>
+  </data>
+  <data name="favourites-remove" xml:space="preserve">
+    <value>Remove from favourites</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>Female</value>

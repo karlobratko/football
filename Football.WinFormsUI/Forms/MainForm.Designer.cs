@@ -88,9 +88,12 @@
       // 
       // pnlFavPlayers
       // 
+      this.pnlFavPlayers.AllowDrop = true;
       this.pnlFavPlayers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       resources.ApplyResources(this.pnlFavPlayers, "pnlFavPlayers");
       this.pnlFavPlayers.Name = "pnlFavPlayers";
+      this.pnlFavPlayers.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragFavPlayerDrop);
+      this.pnlFavPlayers.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragFavPlayerEnter);
       // 
       // lblFavourtePlayers
       // 
@@ -99,8 +102,11 @@
       // 
       // pnlPlayers
       // 
+      this.pnlPlayers.AllowDrop = true;
       resources.ApplyResources(this.pnlPlayers, "pnlPlayers");
       this.pnlPlayers.Name = "pnlPlayers";
+      this.pnlPlayers.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragPlayerDrop);
+      this.pnlPlayers.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragPlayerEnter);
       // 
       // label1
       // 
@@ -183,6 +189,7 @@
       this.Controls.Add(this.menuStrip1);
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "MainForm";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExitApplication);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       this.statusStrip1.ResumeLayout(false);
