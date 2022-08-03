@@ -6,28 +6,30 @@ using Football.DAL.Repository.Abstract;
 
 namespace Football.DAL.Repository.Concrete {
   internal class SettingsFileRepository : ISettingsRepository {
-    private readonly Boolean _settingsExists;
-
     private static readonly String DIR_PATH = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Football.Settings");
     private static readonly String FILE_PATH = Path.Combine(DIR_PATH, "settings.txt");
 
+    private readonly Boolean _settingsExists;
+
     public SettingsFileRepository() {
-      _settingsExists = File.Exists(FILE_PATH);
+      _settingsExists = File.Exists(path: FILE_PATH);
 
       if (!_settingsExists) {
         _ = Directory.CreateDirectory(DIR_PATH);
-        File.WriteAllText(FILE_PATH, Settings.DEFAULT.FormatForFile());
+        File.WriteAllText(path: FILE_PATH,
+                          contents: Settings.DEFAULT.FormatForFile());
       }
     }
 
     public Boolean Exists() => _settingsExists;
 
     public void Save(Settings settings) =>
-      File.WriteAllText(FILE_PATH, settings.FormatForFile());
+      File.WriteAllText(path: FILE_PATH,
+                        contents: settings.FormatForFile());
 
     public Settings Load() =>
-      Settings.Parse(File.ReadAllText(FILE_PATH));
+      Settings.Parse(line: File.ReadAllText(path: FILE_PATH));
     public void Delete() =>
-      File.Delete(FILE_PATH);
+      File.Delete(path: FILE_PATH);
   }
 }

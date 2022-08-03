@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 using Newtonsoft.Json;
 
@@ -10,5 +9,11 @@ namespace Football.DAL.Models {
 
     [JsonProperty("player")]
     public String Player { get; set; }
+
+    public static Boolean IsGoal(MatchEvent e) => 
+      e.TypeOfEvent == "goal" || e.TypeOfEvent == "goal-penalty";
+
+    public static Boolean IsYellowCard(MatchEvent e) => 
+      e.TypeOfEvent == "yellow-card";
   }
 }

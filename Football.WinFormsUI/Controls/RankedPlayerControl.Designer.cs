@@ -37,8 +37,8 @@
       // 
       // pbPlayer
       // 
-      this.pbPlayer.Image = global::Football.WinFormsUI.Properties.Resources.user;
       resources.ApplyResources(this.pbPlayer, "pbPlayer");
+      this.pbPlayer.Image = global::Football.WinFormsUI.Properties.Resources.user;
       this.pbPlayer.InitialImage = global::Football.WinFormsUI.Properties.Resources.user;
       this.pbPlayer.Name = "pbPlayer";
       this.pbPlayer.TabStop = false;

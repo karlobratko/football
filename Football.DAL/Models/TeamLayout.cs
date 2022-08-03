@@ -15,6 +15,6 @@ namespace Football.DAL.Models {
     [JsonProperty("substitutes")]
     public HashSet<Player> Substitutes { get; set; }
 
-    public HashSet<Player> GetTeam() => StartingEleven.Concat(Substitutes).ToHashSet();
+    public HashSet<Player> GetPlayers() => StartingEleven.Concat(Substitutes).ToHashSet();
   }
 }

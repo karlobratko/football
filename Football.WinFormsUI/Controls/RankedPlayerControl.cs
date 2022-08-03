@@ -6,7 +6,7 @@ using Football.Library.Helpers;
 
 namespace Football.WinFormsUI.Controls {
   public partial class RankedPlayerControl : UserControl, IPlayerControl {
-    public Player Player { get; set; }
+    public Player Player { get; }
 
     public RankedPlayerControl(Player player) {
       InitializeComponent();
@@ -22,17 +22,15 @@ namespace Football.WinFormsUI.Controls {
       lblGoals.Text = Player.Goals.ToString();
       lblYellowCards.Text = Player.YellowCards.ToString();
 
-      if (ImageHelper.ImageExists(Player.Name)) {
+      if (ImageHelper.ImageExists(fileName: Player.Name)) {
         ChangeImage();
       }
     }
 
-    public void ChangeImage() {
-      pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
-    }
+    public void ChangeImage() => 
+      pbPlayer.ImageLocation = ImageHelper.GetImagePath(fileName: Player.Name);
 
-    public void RemoveImage() {
+    public void DefaultImage() => 
       pbPlayer.Image = (Image)Properties.Resources.ResourceManager.GetObject("user");
-    }
   }
 }

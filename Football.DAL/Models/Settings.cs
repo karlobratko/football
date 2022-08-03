@@ -6,10 +6,10 @@ namespace Football.DAL.Models {
   public class Settings {
     private const Char DELIM = '|';
 
-    public Language Language;
-    public Gender Gender;
-    public Tuple<Int32, Int32> Resolution;
-    public Country Country;
+    public Language Language { get; set; }
+    public Gender Gender { get; set; }
+    public Tuple<Int32, Int32> Resolution { get; set; }
+    public Country Country { get; set; }
 
     public static Settings DEFAULT =>
       new Settings {
@@ -29,7 +29,6 @@ namespace Football.DAL.Models {
         Country = data.Length > 4 ? Country.Parse(data[4]) : DEFAULT.Country
       };
     }
-
     public String FormatForFile() => 
       $"{Language:d}{DELIM}{Gender:d}{DELIM}{Resolution.Item1}{DELIM}{Resolution.Item2}{DELIM}{Country?.FormatForFile()}";
   }

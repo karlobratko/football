@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-
-using Football.Library.Models;
 
 using Newtonsoft.Json;
 
@@ -24,25 +21,11 @@ namespace Football.DAL.Models {
     public Position Position { get; set; }
 
     public Boolean IsFavourite { get; set; }
-    public Image Image { get; set; }
-    public String ImagePath { get; set; }
-
     public Int32 Goals { get; set; }
     public Int32 YellowCards { get; set; }
 
-    public override Boolean Equals(Object obj) =>
-      obj is Player o &&
-      Name == o.Name &&
-      ShirtNumber == o.ShirtNumber &&
-      Position == o.Position;
-
-    public override Int32 GetHashCode() {
-      Int32 hashCode = 488022466;
-      hashCode = (hashCode * -1521134295) + EqualityComparer<String>.Default.GetHashCode(Name);
-      hashCode = (hashCode * -1521134295) + ShirtNumber.GetHashCode();
-      hashCode = (hashCode * -1521134295) + Position.GetHashCode();
-      return hashCode;
-    }
+    public static Boolean CanBeRanked(Player player) =>
+      player.Goals > 0 && player.YellowCards > 0;
 
     internal static Player Parse(String line) {
       if (line.Length == 0) return null;
@@ -55,7 +38,17 @@ namespace Football.DAL.Models {
         Position = data.Length > 3 ? (Position)Enum.Parse(typeof(Position), data[3]) : Position.Defender
       };
     }
+    internal String FormatForFile() => $"{Name}{DELIM}{Captain}{DELIM}{ShirtNumber}{DELIM}{Position}";
 
-    internal String FormatForFileLine() => $"{Name}{DELIM}{Captain}{DELIM}{ShirtNumber}{DELIM}{Position}";
+    public override Boolean Equals(Object obj) =>
+      obj is Player o && Name == o.Name && ShirtNumber == o.ShirtNumber && Position == o.Position;
+    public override Int32 GetHashCode() {
+      Int32 hashCode = 488022466;
+      hashCode = (hashCode * -1521134295) + EqualityComparer<String>.Default.GetHashCode(Name);
+      hashCode = (hashCode * -1521134295) + ShirtNumber.GetHashCode();
+      hashCode = (hashCode * -1521134295) + Position.GetHashCode();
+      return hashCode;
+    }
+    public override String ToString() => $"{Name}, {ShirtNumber}";
   }
 }
