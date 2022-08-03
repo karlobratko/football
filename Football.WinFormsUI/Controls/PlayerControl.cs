@@ -12,17 +12,14 @@ namespace Football.WinFormsUI.Controls {
     public event ImageChangedEvent OnImageChanged;
     public event ImageRemovedEvent OnImageRemoved;
 
-    public Player Player { get; set; }
+    public Player Player { get; }
+
     public Boolean Selected {
       get => _selected;
       set {
         _selected = value;
         BackColor = _selected ? Color.DarkGray : Color.Transparent;
       }
-    }
-    public String ImagePath {
-      get => ImageHelper.GetImagePath(Player.Name);
-      set => pbPlayer.ImageLocation = value;
     }
 
     public PlayerControl(Player player) {
@@ -39,43 +36,51 @@ namespace Football.WinFormsUI.Controls {
       lblCaptain.Text = Player.Captain ? Properties.Resources.ResourceManager.GetString("player-captain") : "";
       pbFavourite.Visible = Player.IsFavourite;
 
-      if (ImageHelper.ImageExists(Player.Name)) {
+      if (ImageHelper.ImageExists(fileName: Player.Name)) {
         ChangeImage();
       }
     }
 
     private void ChangeImage(Object sender, EventArgs e) {
       try {
-        var ofd = new OpenFileDialog() {
+        using (var ofd = new OpenFileDialog() {
           CheckFileExists = true,
           CheckPathExists = true,
           Multiselect = false,
           Filter = "JPG files (*.jpg)|*.jpg| PNG files (*.png)|*.png"
-        };
+        }) {
 
-        if (ofd.ShowDialog() == DialogResult.OK) {
-          ImageHelper.ReplaceImage(fileName: Player.Name, path: ofd.FileName);
-          ChangeImage();
-          OnImageChanged?.Invoke(sender, new ImageChangedEventArgs { ImagePath = ImageHelper.GetImagePath(Player.Name), Player = Player });
+          if (ofd.ShowDialog() == DialogResult.OK) {
+            ImageHelper.ReplaceImage(srcPath: ofd.FileName, dstFileName: Player.Name);
+            ChangeImage();
+            OnImageChanged?.Invoke(sender,
+                                   new ImageChangedEventArgs {
+                                     ImagePath = ImageHelper.GetImagePath(fileName: Player.Name),
+                                     Player = Player
+                                   });
+          }
         }
       }
       catch (Exception) {
-        _ = MessageBox.Show("An Error Occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        _ = MessageBox.Show(text: "An Error Occured",
+                            caption: "Error",
+                            buttons: MessageBoxButtons.OK,
+                            icon: MessageBoxIcon.Error);
       }
     }
 
     public void ChangeImage() {
-      pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
+      pbPlayer.ImageLocation = ImageHelper.GetImagePath(fileName: Player.Name);
       tsmiRemoveImage.Enabled = true;
     }
 
     private void RemoveImage(Object sender, EventArgs e) {
-      ImageHelper.RemoveImage(Player.Name);
-      RemoveImage();
+      ImageHelper.RemoveImage(fileName: Player.Name);
+      DefaultImage();
       OnImageRemoved?.Invoke(sender, new ImageRemovedEventArgs { Player = Player });
     }
 
-    public void RemoveImage() {
+    public void DefaultImage() {
       pbPlayer.Image = (Image)Properties.Resources.ResourceManager.GetObject("user");
       tsmiRemoveImage.Enabled = false;
     }

@@ -19,10 +19,12 @@ namespace Football.DAL.Repository.Concrete {
       gender == Gender.Male
         ? Read<Match>(Endpoints.MALE_MATCHES_PATH, Endpoints.MALE_MATCHES_URL)
         : Read<Match>(Endpoints.FEMALE_MATCHES_PATH, Endpoints.FEMALE_MATCHES_URL);
+
     public Task<IEnumerable<Result>> ReadResults(Gender gender) =>
       gender == Gender.Male
         ? Read<Result>(Endpoints.MALE_RESULTS_PATH, Endpoints.MALE_RESULTS_URL)
         : Read<Result>(Endpoints.FEMALE_RESULTS_PATH, Endpoints.FEMALE_RESULTS_URL);
+
     public Task<IEnumerable<Country>> ReadCountries(Gender gender) =>
       gender == Gender.Male
         ? Read<Country>(Endpoints.MALE_COUNTRIES_PATH, Endpoints.MALE_RESULTS_URL)

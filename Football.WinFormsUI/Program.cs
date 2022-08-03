@@ -16,7 +16,9 @@ namespace Football.WinFormsUI {
       Application.SetCompatibleTextRenderingDefault(false);
 
       ISettingsRepository settingsRepository = SettingsRepositoryFactory.GetRepository();
-      Application.Run(settingsRepository.Exists() ? new MainForm() : (Form)new SettingsForm(initialSettings: true));
+      Application.Run(settingsRepository.Exists()
+        ? new MainForm()
+        : (Form)new SettingsForm(initialSettings: true));
     }
   }
 }

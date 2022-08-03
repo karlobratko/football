@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
@@ -19,16 +20,17 @@ namespace Football.WinFormsUI {
   public partial class MainForm : Form {
     private const String ADD_TO_FAVOURITES_TSMI_NAME = "tsmiAddToFavourites";
     private const String REMOVE_TO_FAVOURITES_TSMI_NAME = "tsmiRemoveFromFavourites";
-    private Settings _settings;
+
     private readonly IFootballRepository _footballRepository = FootballRepositoryFactory.GetRepository();
     private readonly ISettingsRepository _settingsRepository = SettingsRepositoryFactory.GetRepository();
     private readonly IFavouritePlayersRepository _favouritePlayersRepository = FavouritePlayersRepositoryFactory.GetRepository();
 
+    private readonly IDictionary<Gender, List<Player>> _favouritePlayers;
+    private readonly IList<Player> _selectedPlayers = new List<Player>();
+
+    private Settings _settings;
     private Int32 _progressPreviousPercentage = 0;
     private Int32 _progressCounter = 0;
-
-    private readonly IList<Player> _selectedPlayers = new List<Player>();
-    private readonly IDictionary<Gender, List<Player>> _favouritePlayers;
     private Boolean _dropSuccessfull = false;
 
     private String Status {
@@ -39,18 +41,10 @@ namespace Football.WinFormsUI {
       _settings = _settingsRepository.Load();
       _favouritePlayers = LoadFavouritePlayers();
 
-      Thread.CurrentThread.SetLanguage(_settings.Language);
+      Thread.CurrentThread.SetLanguage(language: _settings.Language);
       InitializeComponent();
 
       Init();
-    }
-
-    private void Init() {
-      PopulateCountriesDDL();
-
-      lblGender.Text = Properties.Resources.ResourceManager.GetString(_settings.Gender.ToString());
-
-      pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(player => InitFavPlayerControl(player)).ToArray());
     }
 
     private IDictionary<Gender, List<Player>> LoadFavouritePlayers() =>
@@ -61,18 +55,36 @@ namespace Football.WinFormsUI {
             { Gender.Female, new List<Player>() }
           };
 
+    private void Init() {
+      PopulateCountriesDDL();
+
+      lblGender.Text = Properties.Resources.ResourceManager.GetString(_settings.Gender.ToString());
+
+      pnlFavPlayers.Controls
+                   .AddRange(controls:
+                     _favouritePlayers[_settings.Gender].Select(selector: player =>
+                                                                  InitFavPlayerControl(player))
+                                                        .ToArray());
+    }
+
     private async void PopulateCountriesDDL() {
       try {
         Status = Properties.Resources.ResourceManager.GetString("fetching-country-data");
 
-        IEnumerable<Country> countries = await _footballRepository.ReadCountries(_settings.Gender);
-        ddlCountry.Items.AddRange(items: countries.OrderBy(keySelector: country => country.Name).ToArray());
+        IEnumerable<Country> countries = await _footballRepository.ReadCountries(gender: _settings.Gender);
+        ddlCountry.Items
+                  .AddRange(items:
+                    countries.OrderBy(keySelector: country => country.Name)
+                             .ToArray());
         ddlCountry.SelectedItem = _settings.Country;
 
         Status = Properties.Resources.ResourceManager.GetString("select-country");
       }
       catch (Exception e) {
-        _ = MessageBox.Show(e.Message, Properties.Resources.ResourceManager.GetString("error-title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        _ = MessageBox.Show(text: e.Message,
+                            caption: Properties.Resources.ResourceManager.GetString("error-title"),
+                            buttons: MessageBoxButtons.OK,
+                            icon: MessageBoxIcon.Error);
         Status = e.Message;
       }
     }
@@ -81,72 +93,98 @@ namespace Football.WinFormsUI {
       var country = ddlCountry.SelectedItem as Country;
 
       _settings.Country = country;
-      _settingsRepository.Save(_settings);
+      _settingsRepository.Save(settings: _settings);
 
       PopulatePNLs();
     }
 
     private async void PopulatePNLs() {
       Status = Properties.Resources.ResourceManager.GetString("fetching-football-data");
-      Controls.OfType<FlowLayoutPanel>().Where(pnl => pnl.Name != pnlFavPlayers.Name).ToList().ForEach(control => control.Controls.Clear());
+      Controls.OfType<FlowLayoutPanel>()
+              .Where(predicate: pnl => pnl.Name != pnlFavPlayers.Name)
+              .ToList()
+              .ForEach(action: control => control.Controls.Clear());
 
       try {
         UpdateProgress(6);
         var matches = (HashSet<Match>)await _footballRepository.ReadMatches(gender: _settings.Gender);
 
         UpdateProgress(6);
-        IEnumerable<MatchEvent> events = matches.Aggregate(seed: new List<MatchEvent>(),
-                                                           func: (res, x) => res.Concat(x.HomeEvents.Concat(x.AwayEvents)).ToList());
+        IEnumerable<MatchEvent> allEvents =
+          matches.Aggregate(seed: new List<MatchEvent>(),
+                            func: (events, match) =>
+                              events.Concat(second: match.GetEvents())
+                                       .ToList());
 
         UpdateProgress(6);
-        var countryPlayers =
+        var players =
           matches.Aggregate(seed: new HashSet<Player>(),
-                            func: (acc, match) => acc.Union(second: match.HomeCountry == _settings.Country.Name
-                                                                      ? match.HomeLayout.GetTeam()
-                                                                      : match.AwayCountry == _settings.Country.Name
-                                                                        ? match.AwayLayout.GetTeam()
-                                                                        : new HashSet<Player>()).ToHashSet())
+                            func: (acc, match) =>
+                              acc.Union(second: match.HomeFrom(_settings.Country)
+                                          ? match.HomeLayout.GetPlayers()
+                                          : match.AwayFrom(_settings.Country)
+                                            ? match.AwayLayout.GetPlayers()
+                                            : new HashSet<Player>())
+                                 .ToHashSet())
                  .Select(selector: player => {
-                   IEnumerable<MatchEvent> playerEvents = events.Where(predicate: e => e.Player.Contains(player.Name));
+                   IEnumerable<MatchEvent> playerEvents =
+                     allEvents.Where(predicate: e => e.Player == player.Name);
 
-                   player.Goals = playerEvents.Where(predicate: e => e.TypeOfEvent == "goal" || e.TypeOfEvent == "goal-penalty").Count();
-                   player.YellowCards = playerEvents.Where(predicate: e => e.TypeOfEvent == "yellow-card").Count();
+                   player.Goals = playerEvents.Count(predicate: MatchEvent.IsGoal);
+                   player.YellowCards = playerEvents.Count(predicate: MatchEvent.IsYellowCard);
 
                    return player;
                  })
                  .ToHashSet();
 
         UpdateProgress(6);
-        pnlPlayers.Controls.AddRange(countryPlayers.Select(selector: InitPlayerControl).ToArray());
+        pnlPlayers.Controls
+                  .AddRange(controls: players.Select(selector: InitPlayerControl)
+                                             .ToArray());
 
         UpdateProgress(6);
-        pnlRankedPlayers.Controls.AddRange(countryPlayers.Where(player => player.Goals > 0 && player.YellowCards > 0)
-                                                         .OrderByDescending(keySelector: player => player.Goals)
-                                                         .ThenByDescending(keySelector: player => player.YellowCards)
-                                                         .Select(selector: player => new RankedPlayerControl(player))
-                                                         .ToArray());
+        pnlRankedPlayers.Controls
+                        .AddRange(controls:
+                          players.Where(Player.CanBeRanked)
+                                 .OrderByDescending(keySelector: player => player.Goals)
+                                 .ThenByDescending(keySelector: player => player.YellowCards)
+                                 .Select(selector: player => new RankedPlayerControl(player))
+                                 .ToArray());
 
         UpdateProgress(6);
-        pnlRankedMatches.Controls.AddRange(matches.Where(predicate: match => match.HomeCountry == _settings.Country.Name || match.AwayCountry == _settings.Country.Name)
-                                                  .OrderByDescending(keySelector: match => match.Attendance)
-                                                  .Select(selector: match => new RankedMatchControl(match))
-                                                  .ToArray());
+        pnlRankedMatches.Controls
+                        .AddRange(controls:
+                          matches.Where(predicate: match =>
+                                          match.WasPlayedIn(country: _settings.Country))
+                                 .OrderByDescending(keySelector: match => match.Attendance)
+                                 .Select(selector: match => new RankedMatchControl(match))
+                                 .ToArray());
 
         Status = Properties.Resources.ResourceManager.GetString("fetching-success");
       }
       catch (Exception e) {
-        _ = MessageBox.Show(e.Message, Properties.Resources.ResourceManager.GetString("error-title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        _ = MessageBox.Show(text: e.Message,
+                            caption: Properties.Resources.ResourceManager.GetString("error-title"),
+                            buttons: MessageBoxButtons.OK,
+                            icon: MessageBoxIcon.Error);
         Status = e.Message;
       }
     }
 
     private PlayerControl InitPlayerControl(Player player) {
       var control = new PlayerControl(player);
+
       control.MouseDown += PlayerControlMouseDown;
-      control.Controls.OfType<Control>()
-                      .ToList()
-                      .ForEach(action: innerControl => innerControl.MouseDown += (Object obj, MouseEventArgs args) => PlayerControlMouseDown(control, args));
-      _ = control.ContextMenuStrip.Items.Add(CreateAddToFavouritesTsmi(control.Player));
+      control.Controls
+             .OfType<Control>()
+             .ToList()
+             .ForEach(action: innerControl =>
+               innerControl.MouseDown += (Object obj, MouseEventArgs args) =>
+                                           PlayerControlMouseDown(sender: control,
+                                                                  e: args));
+
+      _ = control.ContextMenuStrip.Items.Add(value: CreateAddToFavouritesTsmi(control.Player));
+
       control.OnImageChanged += PlayerControlImageChanged(pnlFavPlayers, pnlRankedPlayers);
       control.OnImageRemoved += PlayerControlImageRemoved(pnlFavPlayers, pnlRankedPlayers);
 
@@ -154,60 +192,74 @@ namespace Football.WinFormsUI {
     }
 
     private PlayerControl.ImageRemovedEvent PlayerControlImageRemoved(params Panel[] playersPanels) =>
-      (Object sender, PlayerControl.ImageRemovedEventArgs args) => {
-        playersPanels.ToList().Select(panel => panel.Controls.OfType<IPlayerControl>()
-                                                             .FirstOrDefault(control => control.Player == args.Player))
-                              .Where(control => !(control is null))
-                              .ToList()
-                              .ForEach(control => control.RemoveImage());
-      };
+      (Object sender, PlayerControl.ImageRemovedEventArgs args) =>
+        playersPanels.ToList()
+                     .Select(selector: panel =>
+                               panel.Controls
+                                    .OfType<IPlayerControl>()
+                                    .FirstOrDefault(predicate: control =>
+                                                      control.Player == args.Player))
+                      .Where(predicate: control => !(control is null))
+                      .ToList()
+                      .ForEach(action: control => control.DefaultImage());
 
-    private PlayerControl.ImageChangedEvent PlayerControlImageChanged(params Panel[] playersPanels) => 
-      (Object sender, PlayerControl.ImageChangedEventArgs args) => {
-        playersPanels.ToList().Select(panel => panel.Controls.OfType<IPlayerControl>()
-                                                             .FirstOrDefault(control => control.Player == args.Player))
-                              .Where(control => !(control is null))
+    private PlayerControl.ImageChangedEvent PlayerControlImageChanged(params Panel[] playersPanels) =>
+      (Object sender, PlayerControl.ImageChangedEventArgs args) =>
+        playersPanels.ToList()
+                     .Select(selector: panel =>
+                               panel.Controls
+                                    .OfType<IPlayerControl>()
+                                    .FirstOrDefault(predicate: control =>
+                                                      control.Player == args.Player))
+                              .Where(predicate: control => !(control is null))
                               .ToList()
-                              .ForEach(control => control.ChangeImage());
-      };
+                              .ForEach(action: control => control.ChangeImage());
 
-  private void PlayerControlMouseDown(Object sender, MouseEventArgs e) {
+    private void PlayerControlMouseDown(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Right) return;
 
       var playerControl = sender as PlayerControl;
-      if (_favouritePlayers[_settings.Gender].Count == 3 || _favouritePlayers[_settings.Gender].Contains(playerControl.Player)) return;
+      if (_favouritePlayers[_settings.Gender].Count == 3 ||
+          _favouritePlayers[_settings.Gender].Contains(item: playerControl.Player)) {
+        return;
+      }
 
-      if (_selectedPlayers.Contains(playerControl.Player)) {
-        _ = playerControl.DoDragDrop(_selectedPlayers.ToList(),
-                                     DragDropEffects.Copy | DragDropEffects.None);
+      if (_selectedPlayers.Contains(item: playerControl.Player)) {
+        _ = playerControl.DoDragDrop(data: _selectedPlayers.ToList(),
+                                     allowedEffects: DragDropEffects.Copy |
+                                                     DragDropEffects.None);
 
-        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count) {
+        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count ||
+            playerControl.Selected) {
           playerControl.Selected = playerControl.Selected != true;
 
           if (playerControl.Selected)
-            _selectedPlayers.Add(playerControl.Player);
+            _selectedPlayers.Add(item: playerControl.Player);
           else
-            _ = _selectedPlayers.Remove(playerControl.Player);
+            _ = _selectedPlayers.Remove(item: playerControl.Player);
         }
       }
       else if (_selectedPlayers.Count < 3) {
-        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count) {
+        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count ||
+            playerControl.Selected) {
           playerControl.Selected = playerControl.Selected != true;
 
           if (playerControl.Selected)
-            _selectedPlayers.Add(playerControl.Player);
+            _selectedPlayers.Add(item: playerControl.Player);
           else
-            _ = _selectedPlayers.Remove(playerControl.Player);
+            _ = _selectedPlayers.Remove(item: playerControl.Player);
         }
 
-        _ = playerControl.DoDragDrop(_selectedPlayers.ToList(),
-                                     DragDropEffects.Copy);
+        _ = playerControl.DoDragDrop(data: _selectedPlayers.ToList(),
+                                     allowedEffects: DragDropEffects.Copy |
+                                                     DragDropEffects.None);
       }
 
       if (_dropSuccessfull) {
-        pnlPlayers.Controls.OfType<PlayerControl>()
-                           .ToList()
-                           .ForEach(action: control => control.Selected = false);
+        pnlPlayers.Controls
+                  .OfType<PlayerControl>()
+                  .ToList()
+                  .ForEach(action: control => control.Selected = false);
 
         _selectedPlayers.Clear();
         _dropSuccessfull = false;
@@ -215,25 +267,29 @@ namespace Football.WinFormsUI {
     }
 
     private ToolStripMenuItem CreateAddToFavouritesTsmi(Player player) {
-      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(player);
+      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(item: player);
 
       var tsmi = new ToolStripMenuItem() {
         Text = Properties.Resources.ResourceManager.GetString("favourites-add"),
         Name = $"{ADD_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}",
         Enabled = !isFavourite
       };
+
       tsmi.Click += (Object sender, EventArgs args) => {
         if (!isFavourite)
           AddToFavourites(new List<Player> { player });
       };
+
       return tsmi;
     }
 
     private void DragFavPlayerEnter(Object sender, DragEventArgs e) =>
-      e.Effect = _favouritePlayers[_settings.Gender].Count < 3 ? DragDropEffects.Copy : DragDropEffects.None;
+      e.Effect = _favouritePlayers[_settings.Gender].Count < 3
+        ? DragDropEffects.Copy
+        : DragDropEffects.None;
 
     private void DragFavPlayerDrop(Object sender, DragEventArgs e) {
-      if (e.Data.GetData(typeof(List<Player>)) is List<Player> players) {
+      if (e.Data.GetData(format: typeof(List<Player>)) is List<Player> players) {
         AddToFavourites(players);
         _dropSuccessfull = true;
       }
@@ -243,22 +299,35 @@ namespace Football.WinFormsUI {
     }
 
     private void AddToFavourites(List<Player> players) {
-      _favouritePlayers[_settings.Gender] = _favouritePlayers[_settings.Gender].Union(players).ToList();
+      _favouritePlayers[_settings.Gender] =
+        _favouritePlayers[_settings.Gender].Union(second: players)
+                                           .ToList();
 
       pnlFavPlayers.Controls.Clear();
-      pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl).ToArray());
+      pnlFavPlayers.Controls
+                   .AddRange(controls:
+                     _favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl)
+                                                        .ToArray());
 
       DisableAddToFavouritesTsmi(players);
     }
 
     private PlayerControl InitFavPlayerControl(Player player) {
       player.IsFavourite = true;
+
       var control = new PlayerControl(player);
+
       control.MouseDown += FavPlayerControlMouseDown;
-      control.Controls.OfType<Control>()
-                 .ToList()
-                 .ForEach(action: innerControl => innerControl.MouseDown += (Object obj, MouseEventArgs args) => FavPlayerControlMouseDown(control, args));
-      _ = control.ContextMenuStrip.Items.Add(CreateRemoveFromFavouritesTsmi(control.Player));
+      control.Controls
+             .OfType<Control>()
+             .ToList()
+             .ForEach(action: innerControl =>
+               innerControl.MouseDown += (Object obj, MouseEventArgs args) =>
+                                           FavPlayerControlMouseDown(sender: control,
+                                                                     e: args));
+
+      _ = control.ContextMenuStrip.Items.Add(value: CreateRemoveFromFavouritesTsmi(control.Player));
+
       control.OnImageChanged += PlayerControlImageChanged(pnlPlayers, pnlRankedPlayers);
       control.OnImageRemoved += PlayerControlImageRemoved(pnlPlayers, pnlRankedPlayers);
 
@@ -266,61 +335,82 @@ namespace Football.WinFormsUI {
     }
 
     private ToolStripMenuItem CreateRemoveFromFavouritesTsmi(Player player) {
-      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(player);
+      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(item: player);
 
       var tsmi = new ToolStripMenuItem() {
         Text = Properties.Resources.ResourceManager.GetString("favourites-remove"),
         Name = $"{REMOVE_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}"
       };
+
       tsmi.Click += (Object sender, EventArgs args) => {
         if (isFavourite)
           RemoveFromFavourites(player);
       };
+
       return tsmi;
     }
 
     private void DisableAddToFavouritesTsmi(List<Player> players) =>
-      pnlPlayers.Controls.OfType<PlayerControl>()
-                         .ToList()
-                         .ForEach(control =>
-                           players.ForEach(player => {
-                             ToolStripItem tmp = control.ContextMenuStrip.Items.Find($"{ADD_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}", false).FirstOrDefault();
-                             if (!(tmp is null))
-                               tmp.Enabled = false;
-                           }));
+      pnlPlayers.Controls
+                .OfType<PlayerControl>()
+                .ToList()
+                .ForEach(control =>
+                  players.ForEach(action: player => {
+                    ToolStripItem tmp =
+                      control.ContextMenuStrip
+                             .Items
+                             .Find(key: $"{ADD_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}",
+                                   searchAllChildren: false)
+                             .FirstOrDefault();
+
+                    if (!(tmp is null))
+                      tmp.Enabled = false;
+                  }));
 
     private void FavPlayerControlMouseDown(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Right) return;
 
       var playerControl = sender as PlayerControl;
       playerControl.Selected = true;
-      _ = playerControl.DoDragDrop(playerControl.Player, DragDropEffects.Move);
+      _ = playerControl.DoDragDrop(data: playerControl.Player,
+                                   allowedEffects: DragDropEffects.Move);
       playerControl.Selected = false;
     }
 
     private void RemoveFromFavourites(Player player) {
-      _favouritePlayers[_settings.Gender].Remove(player);
+      _ = _favouritePlayers[_settings.Gender].Remove(item: player);
 
       pnlFavPlayers.Controls.Clear();
-      pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl).ToArray());
+      pnlFavPlayers.Controls
+                   .AddRange(controls:
+                     _favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl)
+                                                        .ToArray());
 
       EnableAddToFavouritesTsmi(player);
     }
 
     private void EnableAddToFavouritesTsmi(Player player) =>
-      pnlPlayers.Controls.OfType<PlayerControl>()
-                     .ToList()
-                     .ForEach(control => {
-                       ToolStripItem tmp = control.ContextMenuStrip.Items.Find($"{ADD_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}", false).FirstOrDefault();
-                       if (!(tmp is null))
-                         tmp.Enabled = true;
-                     });
+      pnlPlayers.Controls
+                .OfType<PlayerControl>()
+                .ToList()
+                .ForEach(action: control => {
+                  ToolStripItem tmp =
+                    control.ContextMenuStrip
+                           .Items
+                           .Find(key: $"{ADD_TO_FAVOURITES_TSMI_NAME}_{player.ShirtNumber}",
+                                 searchAllChildren: false)
+                           .FirstOrDefault();
 
-    private void DragPlayerEnter(Object sender, DragEventArgs e) => e.Effect = DragDropEffects.Move;
+                  if (!(tmp is null))
+                    tmp.Enabled = true;
+                });
+
+    private void DragPlayerEnter(Object sender, DragEventArgs e) =>
+      e.Effect = DragDropEffects.Move;
 
     private void DragPlayerDrop(Object sender, DragEventArgs e) {
-      if (e.Data.GetData(typeof(Player)) is Player favPlayer && favPlayer.IsFavourite) {
-        RemoveFromFavourites(favPlayer);
+      if (e.Data.GetData(format: typeof(Player)) is Player player && player.IsFavourite) {
+        RemoveFromFavourites(player);
       }
     }
 
@@ -350,84 +440,103 @@ namespace Football.WinFormsUI {
       }
     }
 
-    private void ProgressChanged(Object sender, System.ComponentModel.ProgressChangedEventArgs e) =>
+    private void ProgressChanged(Object sender, ProgressChangedEventArgs e) =>
       progressBar.Value = e.ProgressPercentage;
 
     private void ExitApplication(Object sender, FormClosingEventArgs e) {
-      DialogResult result = MessageBox.Show(Properties.Resources.ResourceManager.GetString("exit-text"),
-                                            Properties.Resources.ResourceManager.GetString("exit-title"),
-                                            MessageBoxButtons.YesNoCancel,
-                                            MessageBoxIcon.Question);
+      DialogResult result =
+        MessageBox.Show(text: Properties.Resources.ResourceManager.GetString("exit-text"),
+                        caption: Properties.Resources.ResourceManager.GetString("exit-title"),
+                        buttons: MessageBoxButtons.YesNoCancel,
+                        icon: MessageBoxIcon.Question);
 
       switch (result) {
         case DialogResult.Yes:
-          _favouritePlayersRepository.Save(_favouritePlayers);
-          break;
+          _favouritePlayersRepository.Save(dict: _favouritePlayers);
+          return;
         case DialogResult.Cancel:
           e.Cancel = true;
-          break;
+          return;
       }
     }
 
     private void PrintPlayersAsPage(Object sender, PrintPageEventArgs e) {
       e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+      e.PageSettings.Margins = new Margins(left: 100,
+                                           right: 100,
+                                           top: 100,
+                                           bottom: 100);
 
-      e.PageSettings.Margins = new Margins(100, 100, 100, 100); ;
+      var location = new PointF(x: 100, y: 100);
+      var h1Font = new Font(family: Font.FontFamily,
+                            emSize: Font.Size * 2f,
+                            style: FontStyle.Bold);
+      var h2Font = new Font(family: Font.FontFamily,
+                            emSize: Font.Size * 1.5f,
+                            style: FontStyle.Regular);
+      var pFont = new Font(family: Font.FontFamily,
+                           emSize: Font.Size * 1.2f,
+                           style: FontStyle.Regular);
 
-      var location = new PointF(100, 100);
-
-      var h1Font = new Font(Font.FontFamily, Font.Size * 2f, FontStyle.Bold);
-      var h2Font = new Font(Font.FontFamily, Font.Size * 1.5f, FontStyle.Regular);
-      var pFont = new Font(Font.FontFamily, Font.Size * 1.2f, FontStyle.Regular); ;
-
-      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-title"),
-                            h1Font,
-                            Brushes.Black,
-                            location);
+      e.Graphics
+       .DrawString(s: Properties.Resources.ResourceManager.GetString("print-title"),
+                   font: h1Font,
+                   brush: Brushes.Black,
+                   point: location);
       location.Y += h1Font.Height;
 
       location.Y += 20;
 
-      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-players-rank-title"),
-                            h2Font,
-                            Brushes.Black,
-                            location);
+      e.Graphics
+       .DrawString(s: Properties.Resources.ResourceManager.GetString("print-players-rank-title"),
+                   font: h2Font,
+                   brush: Brushes.Black,
+                   point: location);
       location.Y += h2Font.Height;
 
-      pnlRankedPlayers.Controls.OfType<RankedPlayerControl>()
-                               .Select(selector: control => control.Player)
-                               .ToList()
-                               .ForEach(action: player => e.Graphics.DrawString(String.Format(Properties.Resources.ResourceManager.GetString("print-players-rank-format"),
-                                                                                              player.Name,
-                                                                                              player.ShirtNumber,
-                                                                                              player.Position,
-                                                                                              player.Goals,
-                                                                                              player.YellowCards),
-                                                                                pFont,
-                                                                                Brushes.Black,
-                                                                                location.X,
-                                                                                location.Y += pFont.Size + pFont.Height));
+      pnlRankedPlayers.Controls
+                      .OfType<RankedPlayerControl>()
+                      .Select(selector: control => control.Player)
+                      .ToList()
+                      .ForEach(action: player =>
+                        e.Graphics
+                         .DrawString(s:
+                           String.Format(format: Properties.Resources.ResourceManager.GetString("print-players-rank-format"),
+                                         player.Name,
+                                         player.ShirtNumber,
+                                         player.Position,
+                                         player.Goals,
+                                         player.YellowCards),
+                                     font: pFont,
+                                     brush: Brushes.Black,
+                                     x: location.X,
+                                     y: location.Y += pFont.Size + pFont.Height));
 
       location.Y += 50;
 
-      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-matches-rank-title"),
-                            h2Font,
-                            Brushes.Black,
-                            location);
+      e.Graphics
+       .DrawString(s: Properties.Resources.ResourceManager.GetString("print-matches-rank-title"),
+                   font: h2Font,
+                   brush: Brushes.Black,
+                   point: location);
       location.Y += h2Font.Height;
 
-      pnlRankedMatches.Controls.OfType<RankedMatchControl>()
-                               .Select(selector: control => control.Stadium)
-                               .ToList()
-                               .ForEach(action: stadium => e.Graphics.DrawString(String.Format(Properties.Resources.ResourceManager.GetString("print-matches-rank-format"),
-                                                                                               stadium.HomeCountry,
-                                                                                               stadium.AwayCountry,
-                                                                                               stadium.Location,
-                                                                                               stadium.Attendance),
-                                                                                 pFont,
-                                                                                 Brushes.Black,
-                                                                                 location.X,
-                                                                                 location.Y += pFont.Size + pFont.Height));
+      pnlRankedMatches.Controls
+                      .OfType<RankedMatchControl>()
+                      .Select(selector: control => control.Stadium)
+                      .ToList()
+                      .ForEach(action: stadium =>
+                        e.Graphics
+                         .DrawString(s:
+                           String.Format(format: Properties.Resources.ResourceManager.GetString("print-matches-rank-format"),
+                                         stadium.HomeCountry,
+                                         stadium.AwayCountry,
+                                         stadium.Location,
+                                         stadium.Attendance),
+                                     font: pFont,
+                                     brush: Brushes.Black,
+                                     x: location.X,
+                                     y: location.Y += pFont.Size + pFont.Height));
     }
 
     private void OpenPrintDialog(Object sender, EventArgs e) =>

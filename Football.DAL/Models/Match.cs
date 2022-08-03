@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime;
 
 using Newtonsoft.Json;
 
@@ -46,6 +48,18 @@ namespace Football.DAL.Models {
 
     [JsonProperty("away_team_statistics")]
     public TeamLayout AwayLayout { get; set; }
+
+    public IList<MatchEvent> GetEvents() =>
+      HomeEvents.Concat(second: AwayEvents).ToList();
+
+    public Boolean HomeFrom(Country country) =>
+      HomeCountry == country.Name;
+
+    public Boolean AwayFrom(Country country) =>
+      AwayCountry == country.Name;
+
+    public Boolean WasPlayedIn(Country country) =>
+      HomeCountry == country.Name || AwayCountry == country.Name;
 
     public override Boolean Equals(Object obj) => obj is Match o && Id == o.Id;
     public override Int32 GetHashCode() => 2108858624 + Id.GetHashCode();

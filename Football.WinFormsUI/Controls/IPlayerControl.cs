@@ -2,8 +2,8 @@
 
 namespace Football.WinFormsUI.Controls {
   public interface IPlayerControl {
-    Player Player { get; set; }
-    void RemoveImage();
+    Player Player { get; }
+    void DefaultImage();
     void ChangeImage();
   }
 }

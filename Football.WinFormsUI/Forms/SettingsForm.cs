@@ -22,17 +22,21 @@ namespace Football.WinFormsUI.Forms {
 
       Thread.CurrentThread.SetLanguage(_settings.Language);
       InitializeComponent();
+
       Init();
     }
 
     private void PopulateLanguageDDL() {
       ddlLanguage.ValueMember = "Value";
       ddlLanguage.DisplayMember = "Display";
-      ddlLanguage.DataSource = Enum.GetNames(typeof(Language))
-                                  .Select(lang => new {
-                                    Value = lang,
-                                    Display = Properties.Resources.ResourceManager.GetString(lang)
-                                  }).ToList();
+      ddlLanguage.DataSource =
+        Enum.GetNames(typeof(Language))
+            .Select(selector: lang =>
+                      new {
+                        Value = lang,
+                        Display = Properties.Resources.ResourceManager.GetString(lang)
+                      })
+            .ToList();
       ddlLanguage.SelectedValue = _settings.Language.ToString();
     }
 
@@ -58,9 +62,10 @@ namespace Football.WinFormsUI.Forms {
     }
 
     private void SubmitSettings(Object sender, EventArgs e) {
-      _settingsRepository.Save(new Settings {
+      _settingsRepository.Save(settings: new Settings {
         Gender = rbMale.Checked ? Gender.Male : Gender.Female,
-        Language = (Language)Enum.Parse(typeof(Language), ddlLanguage.SelectedValue.ToString()),
+        Language = (Language)Enum.Parse(enumType: typeof(Language),
+                                        value: ddlLanguage.SelectedValue.ToString()),
         Resolution = _settings.Resolution,
         Country = _settings.Country,
       });

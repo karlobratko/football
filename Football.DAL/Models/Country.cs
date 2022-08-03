@@ -22,7 +22,6 @@ namespace Football.DAL.Models {
         }
         : null;
     }
-
     public String FormatForFile() => $"{Name}{DELIM}{FifaCode}";
 
     public override Boolean Equals(Object obj) => obj is Country o && Name == o.Name && FifaCode == o.FifaCode;
