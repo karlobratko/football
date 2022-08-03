@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -48,9 +51,6 @@ namespace Football.WinFormsUI {
       lblGender.Text = Properties.Resources.ResourceManager.GetString(_settings.Gender.ToString());
 
       pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(player => InitFavPlayerControl(player)).ToArray());
-      if (_settings.Country != null) {
-        PopulatePNLs();
-      }
     }
 
     private IDictionary<Gender, List<Player>> LoadFavouritePlayers() =>
@@ -147,61 +147,58 @@ namespace Football.WinFormsUI {
                       .ToList()
                       .ForEach(action: innerControl => innerControl.MouseDown += (Object obj, MouseEventArgs args) => PlayerControlMouseDown(control, args));
       _ = control.ContextMenuStrip.Items.Add(CreateAddToFavouritesTsmi(control.Player));
-      control.OnImageChanged += PlayerControlImageChanged(pnlFavPlayers);
-      control.OnImageRemoved += PlayerControlImageRemoved(pnlFavPlayers);
+      control.OnImageChanged += PlayerControlImageChanged(pnlFavPlayers, pnlRankedPlayers);
+      control.OnImageRemoved += PlayerControlImageRemoved(pnlFavPlayers, pnlRankedPlayers);
 
       return control;
     }
 
-    private PlayerControl.ImageRemovedEvent PlayerControlImageRemoved(Panel playersPanel) =>
+    private PlayerControl.ImageRemovedEvent PlayerControlImageRemoved(params Panel[] playersPanels) =>
       (Object sender, PlayerControl.ImageRemovedEventArgs args) => {
-        PlayerControl playerControl = playersPanel.Controls.OfType<PlayerControl>()
-                                                           .FirstOrDefault(control => control.Player == args.Player);
-        if (playerControl is null) return;
-
-        playerControl.RemoveImage();
+        playersPanels.ToList().Select(panel => panel.Controls.OfType<IPlayerControl>()
+                                                             .FirstOrDefault(control => control.Player == args.Player))
+                              .Where(control => !(control is null))
+                              .ToList()
+                              .ForEach(control => control.RemoveImage());
       };
 
-    private PlayerControl.ImageChangedEvent PlayerControlImageChanged(Panel playersPanel) => 
+    private PlayerControl.ImageChangedEvent PlayerControlImageChanged(params Panel[] playersPanels) => 
       (Object sender, PlayerControl.ImageChangedEventArgs args) => {
-        PlayerControl playerControl = playersPanel.Controls.OfType<PlayerControl>()
-                                                           .FirstOrDefault(control => control.Player == args.Player);
-        if (playerControl is null) return;
-
-        playerControl.ChangeImage();
+        playersPanels.ToList().Select(panel => panel.Controls.OfType<IPlayerControl>()
+                                                             .FirstOrDefault(control => control.Player == args.Player))
+                              .Where(control => !(control is null))
+                              .ToList()
+                              .ForEach(control => control.ChangeImage());
       };
 
   private void PlayerControlMouseDown(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Right) return;
 
       var playerControl = sender as PlayerControl;
-
-      if (_favouritePlayers.Count == 3 || (_favouritePlayers.TryGetValue(_settings.Gender, out List<Player> list) && list.Contains(playerControl.Player))) return;
-
-      if (e.Clicks == 2) {
-        AddToFavourites(new List<Player> { playerControl.Player });
-        playerControl.Selected = false;
-        return;
-      }
+      if (_favouritePlayers[_settings.Gender].Count == 3 || _favouritePlayers[_settings.Gender].Contains(playerControl.Player)) return;
 
       if (_selectedPlayers.Contains(playerControl.Player)) {
         _ = playerControl.DoDragDrop(_selectedPlayers.ToList(),
                                      DragDropEffects.Copy | DragDropEffects.None);
 
-        playerControl.Selected = playerControl.Selected != true;
+        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count) {
+          playerControl.Selected = playerControl.Selected != true;
 
-        if (playerControl.Selected)
-          _selectedPlayers.Add(playerControl.Player);
-        else
-          _ = _selectedPlayers.Remove(playerControl.Player);
+          if (playerControl.Selected)
+            _selectedPlayers.Add(playerControl.Player);
+          else
+            _ = _selectedPlayers.Remove(playerControl.Player);
+        }
       }
       else if (_selectedPlayers.Count < 3) {
-        playerControl.Selected = playerControl.Selected != true;
+        if (3 - _favouritePlayers[_settings.Gender].Count > _selectedPlayers.Count) {
+          playerControl.Selected = playerControl.Selected != true;
 
-        if (playerControl.Selected)
-          _selectedPlayers.Add(playerControl.Player);
-        else
-          _ = _selectedPlayers.Remove(playerControl.Player);
+          if (playerControl.Selected)
+            _selectedPlayers.Add(playerControl.Player);
+          else
+            _ = _selectedPlayers.Remove(playerControl.Player);
+        }
 
         _ = playerControl.DoDragDrop(_selectedPlayers.ToList(),
                                      DragDropEffects.Copy);
@@ -218,7 +215,7 @@ namespace Football.WinFormsUI {
     }
 
     private ToolStripMenuItem CreateAddToFavouritesTsmi(Player player) {
-      Boolean isFavourite = _favouritePlayers.TryGetValue(_settings.Gender, out List<Player> list) && list.Contains(player);
+      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(player);
 
       var tsmi = new ToolStripMenuItem() {
         Text = Properties.Resources.ResourceManager.GetString("favourites-add"),
@@ -233,7 +230,7 @@ namespace Football.WinFormsUI {
     }
 
     private void DragFavPlayerEnter(Object sender, DragEventArgs e) =>
-      e.Effect = _favouritePlayers.Count < 3 ? DragDropEffects.Copy : DragDropEffects.None;
+      e.Effect = _favouritePlayers[_settings.Gender].Count < 3 ? DragDropEffects.Copy : DragDropEffects.None;
 
     private void DragFavPlayerDrop(Object sender, DragEventArgs e) {
       if (e.Data.GetData(typeof(List<Player>)) is List<Player> players) {
@@ -246,12 +243,10 @@ namespace Football.WinFormsUI {
     }
 
     private void AddToFavourites(List<Player> players) {
-      if (!_favouritePlayers.TryGetValue(_settings.Gender, out List<Player> list)) return;
-      list = list.Union(players).ToList();
-      _favouritePlayers[_settings.Gender] = list;
+      _favouritePlayers[_settings.Gender] = _favouritePlayers[_settings.Gender].Union(players).ToList();
 
       pnlFavPlayers.Controls.Clear();
-      pnlFavPlayers.Controls.AddRange(list.Select(selector: InitFavPlayerControl).ToArray());
+      pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl).ToArray());
 
       DisableAddToFavouritesTsmi(players);
     }
@@ -264,14 +259,14 @@ namespace Football.WinFormsUI {
                  .ToList()
                  .ForEach(action: innerControl => innerControl.MouseDown += (Object obj, MouseEventArgs args) => FavPlayerControlMouseDown(control, args));
       _ = control.ContextMenuStrip.Items.Add(CreateRemoveFromFavouritesTsmi(control.Player));
-      control.OnImageChanged += PlayerControlImageChanged(pnlPlayers);
-      control.OnImageRemoved += PlayerControlImageRemoved(pnlPlayers);
+      control.OnImageChanged += PlayerControlImageChanged(pnlPlayers, pnlRankedPlayers);
+      control.OnImageRemoved += PlayerControlImageRemoved(pnlPlayers, pnlRankedPlayers);
 
       return control;
     }
 
     private ToolStripMenuItem CreateRemoveFromFavouritesTsmi(Player player) {
-      Boolean isFavourite = _favouritePlayers.TryGetValue(_settings.Gender, out List<Player> list) && list.Contains(player);
+      Boolean isFavourite = _favouritePlayers[_settings.Gender].Contains(player);
 
       var tsmi = new ToolStripMenuItem() {
         Text = Properties.Resources.ResourceManager.GetString("favourites-remove"),
@@ -298,25 +293,16 @@ namespace Football.WinFormsUI {
       if (e.Button == MouseButtons.Right) return;
 
       var playerControl = sender as PlayerControl;
-
-      if (e.Clicks == 2) {
-        RemoveFromFavourites(playerControl.Player);
-        playerControl.Selected = false;
-        return;
-      }
-
       playerControl.Selected = true;
       _ = playerControl.DoDragDrop(playerControl.Player, DragDropEffects.Move);
       playerControl.Selected = false;
     }
 
     private void RemoveFromFavourites(Player player) {
-      if (!_favouritePlayers.TryGetValue(_settings.Gender, out List<Player> list)) return;
-      _ = list.Remove(player);
-      _favouritePlayers[_settings.Gender] = list;
+      _favouritePlayers[_settings.Gender].Remove(player);
 
       pnlFavPlayers.Controls.Clear();
-      pnlFavPlayers.Controls.AddRange(list.Select(selector: InitFavPlayerControl).ToArray());
+      pnlFavPlayers.Controls.AddRange(_favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl).ToArray());
 
       EnableAddToFavouritesTsmi(player);
     }
@@ -382,5 +368,75 @@ namespace Football.WinFormsUI {
           break;
       }
     }
+
+    private void PrintPlayersAsPage(Object sender, PrintPageEventArgs e) {
+      e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+      e.PageSettings.Margins = new Margins(100, 100, 100, 100); ;
+
+      var location = new PointF(100, 100);
+
+      var h1Font = new Font(Font.FontFamily, Font.Size * 2f, FontStyle.Bold);
+      var h2Font = new Font(Font.FontFamily, Font.Size * 1.5f, FontStyle.Regular);
+      var pFont = new Font(Font.FontFamily, Font.Size * 1.2f, FontStyle.Regular); ;
+
+      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-title"),
+                            h1Font,
+                            Brushes.Black,
+                            location);
+      location.Y += h1Font.Height;
+
+      location.Y += 20;
+
+      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-players-rank-title"),
+                            h2Font,
+                            Brushes.Black,
+                            location);
+      location.Y += h2Font.Height;
+
+      pnlRankedPlayers.Controls.OfType<RankedPlayerControl>()
+                               .Select(selector: control => control.Player)
+                               .ToList()
+                               .ForEach(action: player => e.Graphics.DrawString(String.Format(Properties.Resources.ResourceManager.GetString("print-players-rank-format"),
+                                                                                              player.Name,
+                                                                                              player.ShirtNumber,
+                                                                                              player.Position,
+                                                                                              player.Goals,
+                                                                                              player.YellowCards),
+                                                                                pFont,
+                                                                                Brushes.Black,
+                                                                                location.X,
+                                                                                location.Y += pFont.Size + pFont.Height));
+
+      location.Y += 50;
+
+      e.Graphics.DrawString(Properties.Resources.ResourceManager.GetString("print-matches-rank-title"),
+                            h2Font,
+                            Brushes.Black,
+                            location);
+      location.Y += h2Font.Height;
+
+      pnlRankedMatches.Controls.OfType<RankedMatchControl>()
+                               .Select(selector: control => control.Stadium)
+                               .ToList()
+                               .ForEach(action: stadium => e.Graphics.DrawString(String.Format(Properties.Resources.ResourceManager.GetString("print-matches-rank-format"),
+                                                                                               stadium.HomeCountry,
+                                                                                               stadium.AwayCountry,
+                                                                                               stadium.Location,
+                                                                                               stadium.Attendance),
+                                                                                 pFont,
+                                                                                 Brushes.Black,
+                                                                                 location.X,
+                                                                                 location.Y += pFont.Size + pFont.Height));
+    }
+
+    private void OpenPrintDialog(Object sender, EventArgs e) =>
+      printDialog.ShowDialog();
+
+    private void OpenPrintPreview(Object sender, EventArgs e) =>
+      printPreviewDialog.ShowDialog();
+
+    private void PrintDocument(Object sender, EventArgs e) =>
+      printDocument.Print();
   }
 }

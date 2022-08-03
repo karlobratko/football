@@ -44,6 +44,12 @@
       this.ddlCountry = new System.Windows.Forms.ComboBox();
       this.gbSimpleSettings = new System.Windows.Forms.GroupBox();
       this.bgWorker = new System.ComponentModel.BackgroundWorker();
+      this.printDocument = new System.Drawing.Printing.PrintDocument();
+      this.printDialog = new System.Windows.Forms.PrintDialog();
+      this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+      this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
       this.gbSimpleSettings.SuspendLayout();
@@ -65,6 +71,10 @@
       // 
       // tsmiPrint
       // 
+      this.tsmiPrint.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem,
+            this.previewToolStripMenuItem,
+            this.printToolStripMenuItem});
       resources.ApplyResources(this.tsmiPrint, "tsmiPrint");
       this.tsmiPrint.Name = "tsmiPrint";
       // 
@@ -172,6 +182,38 @@
       this.bgWorker.WorkerSupportsCancellation = true;
       this.bgWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ProgressChanged);
       // 
+      // printDocument
+      // 
+      this.printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPlayersAsPage);
+      // 
+      // printDialog
+      // 
+      this.printDialog.UseEXDialog = true;
+      // 
+      // printPreviewDialog
+      // 
+      resources.ApplyResources(this.printPreviewDialog, "printPreviewDialog");
+      this.printPreviewDialog.Document = this.printDocument;
+      this.printPreviewDialog.Name = "printPreviewDialog";
+      // 
+      // optionsToolStripMenuItem
+      // 
+      this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+      resources.ApplyResources(this.optionsToolStripMenuItem, "optionsToolStripMenuItem");
+      this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintDialog);
+      // 
+      // previewToolStripMenuItem
+      // 
+      this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
+      resources.ApplyResources(this.previewToolStripMenuItem, "previewToolStripMenuItem");
+      this.previewToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintPreview);
+      // 
+      // printToolStripMenuItem
+      // 
+      this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+      resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+      this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintDocument);
+      // 
       // MainForm
       // 
       resources.ApplyResources(this, "$this");
@@ -223,5 +265,11 @@
     private System.Windows.Forms.ComboBox ddlCountry;
     private System.Windows.Forms.GroupBox gbSimpleSettings;
     private System.ComponentModel.BackgroundWorker bgWorker;
+    private System.Drawing.Printing.PrintDocument printDocument;
+    private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+    private System.Windows.Forms.PrintDialog printDialog;
+    private System.Windows.Forms.PrintPreviewDialog printPreviewDialog;
   }
 }

@@ -162,6 +162,21 @@
   <data name="player-captain" xml:space="preserve">
     <value>Captain</value>
   </data>
+  <data name="print-matches-rank-format" xml:space="preserve">
+    <value>Home: {0}, Away: {1}, Location: {2}, Attendance: {3}</value>
+  </data>
+  <data name="print-matches-rank-title" xml:space="preserve">
+    <value>Ranked matches:</value>
+  </data>
+  <data name="print-players-rank-format" xml:space="preserve">
+    <value>Name: {0}, Shirt number: {1}, Position: {2}, Goals: {3}, Yellow cards: {4}</value>
+  </data>
+  <data name="print-players-rank-title" xml:space="preserve">
+    <value>Ranked players:</value>
+  </data>
+  <data name="print-title" xml:space="preserve">
+    <value>Ranked information</value>
+  </data>
   <data name="select-country" xml:space="preserve">
     <value>Select country</value>
   </data>
