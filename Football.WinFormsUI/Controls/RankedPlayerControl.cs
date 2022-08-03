@@ -1,12 +1,12 @@
-﻿using System;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 using Football.DAL.Models;
 using Football.Library.Helpers;
 
 namespace Football.WinFormsUI.Controls {
-  public partial class RankedPlayerControl : UserControl {
-    private Player Player { get; set; }
+  public partial class RankedPlayerControl : UserControl, IPlayerControl {
+    public Player Player { get; set; }
 
     public RankedPlayerControl(Player player) {
       InitializeComponent();
@@ -23,8 +23,16 @@ namespace Football.WinFormsUI.Controls {
       lblYellowCards.Text = Player.YellowCards.ToString();
 
       if (ImageHelper.ImageExists(Player.Name)) {
-        pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
+        ChangeImage();
       }
+    }
+
+    public void ChangeImage() {
+      pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
+    }
+
+    public void RemoveImage() {
+      pbPlayer.Image = (Image)Properties.Resources.ResourceManager.GetObject("user");
     }
   }
 }

@@ -6,13 +6,13 @@ using Football.DAL.Models;
 using Football.Library.Helpers;
 
 namespace Football.WinFormsUI.Controls {
-  public partial class PlayerControl : UserControl {
+  public partial class PlayerControl : UserControl, IPlayerControl {
     private Boolean _selected = false;
 
     public event ImageChangedEvent OnImageChanged;
     public event ImageRemovedEvent OnImageRemoved;
 
-    public Player Player { get; private set; }
+    public Player Player { get; set; }
     public Boolean Selected {
       get => _selected;
       set {
@@ -40,8 +40,7 @@ namespace Football.WinFormsUI.Controls {
       pbFavourite.Visible = Player.IsFavourite;
 
       if (ImageHelper.ImageExists(Player.Name)) {
-        pbPlayer.ImageLocation = ImageHelper.GetImagePath(Player.Name);
-        tsmiRemoveImage.Enabled = true;
+        ChangeImage();
       }
     }
 
