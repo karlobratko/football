@@ -4,7 +4,7 @@ using Football.DAL.Models;
 
 namespace Football.WinFormsUI.Controls {
   public partial class RankedMatchControl : UserControl {
-    private Match Stadium { get; set; }
+    public Match Stadium { get; set; }
     public RankedMatchControl(Match stadium) {
       InitializeComponent();
       Stadium = stadium;

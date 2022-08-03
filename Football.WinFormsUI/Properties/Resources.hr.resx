@@ -162,6 +162,21 @@
   <data name="player-captain" xml:space="preserve">
     <value>Kapetan</value>
   </data>
+  <data name="print-matches-rank-format" xml:space="preserve">
+    <value>Domaći: {0}, Gosti: {1}, Lokacija: {2}, Broj posjetitelja: {3}</value>
+  </data>
+  <data name="print-matches-rank-title" xml:space="preserve">
+    <value>Rangirane utakmice:</value>
+  </data>
+  <data name="print-players-rank-format" xml:space="preserve">
+    <value>Naziv: {0}, Broj: {1}, Pozicija: {2}, Broj golova: {3}, Broj žutih kartona: {4}</value>
+  </data>
+  <data name="print-players-rank-title" xml:space="preserve">
+    <value>Rangirani igrači:</value>
+  </data>
+  <data name="print-title" xml:space="preserve">
+    <value>Rang informacije</value>
+  </data>
   <data name="select-country" xml:space="preserve">
     <value>Odaberite državu</value>
   </data>

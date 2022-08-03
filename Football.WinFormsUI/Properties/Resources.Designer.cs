@@ -196,6 +196,51 @@ namespace Football.WinFormsUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home: {0}, Away: {1}, Location: {2}, Attendance: {3}.
+        /// </summary>
+        internal static string print_matches_rank_format {
+            get {
+                return ResourceManager.GetString("print-matches-rank-format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranked matches:.
+        /// </summary>
+        internal static string print_matches_rank_title {
+            get {
+                return ResourceManager.GetString("print-matches-rank-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name: {0}, Shirt number: {1}, Position: {2}, Goals: {3}, Yellow cards: {4}.
+        /// </summary>
+        internal static string print_players_rank_format {
+            get {
+                return ResourceManager.GetString("print-players-rank-format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranked players:.
+        /// </summary>
+        internal static string print_players_rank_title {
+            get {
+                return ResourceManager.GetString("print-players-rank-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranked information.
+        /// </summary>
+        internal static string print_title {
+            get {
+                return ResourceManager.GetString("print-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select country.
         /// </summary>
         internal static string select_country {
