@@ -1,0 +1,181 @@
+﻿<Window x:Class="Football.WPFUI.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prop="clr-namespace:Football.WPFUI.Properties"
+        xmlns:local="clr-namespace:Football.WPFUI.Windows"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="800" Height="600">
+  <Grid>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <!--DDL HOME-->
+    <ComboBox x:Name="ddlHomeCountry"
+              Margin="10"
+              Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              SelectionChanged="HomeCountrySelected"/>
+
+    <!--SETTINGS BUTTON -->
+    <Grid Grid.Row="0"
+          Grid.Column="4"
+          Grid.ColumnSpan="2"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Button x:Name="btnSettings"
+              BorderBrush="Transparent"
+              Background="Transparent"
+              Click="OpenSettings">
+        <Grid x:Name="RotateGrid">
+          <Image x:Name="imgGear"
+                 Source="/WPFUI;component/Resources/gear.png" 
+                 Stretch="Fill"
+                 Width="35"
+                 Height="35"/>
+          <Grid.RenderTransform>
+            <RotateTransform Angle="0" CenterX="17.5" CenterY="17.5"/>
+          </Grid.RenderTransform>
+        </Grid>
+
+        <Button.Triggers>
+          <EventTrigger RoutedEvent="Button.MouseEnter">
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="RotateGrid" 
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                 By="-360" Duration="0:0:4"
+                                 AutoReverse="False" RepeatBehavior="Forever" />
+              </Storyboard>
+            </BeginStoryboard>
+          </EventTrigger>
+          <EventTrigger RoutedEvent="Button.MouseLeave">
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetName="RotateGrid" 
+                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                 By="0" Duration="0:0:4"
+                                 AutoReverse="False" RepeatBehavior="Forever" />
+              </Storyboard>
+            </BeginStoryboard>
+          </EventTrigger>
+        </Button.Triggers>
+      </Button>
+
+    </Grid>
+
+    <!--DDL AWAY-->
+    <ComboBox x:Name="ddlAwayCountry"
+              Margin="10"
+              Grid.Row="0"
+              Grid.Column="8"
+              Grid.ColumnSpan="2"
+              SelectionChanged="AwayCountrySelected"/>
+
+    <!--LBL/BTN HOME-->
+    <Button x:Name="lblHomeCountry" 
+            Content="Home"
+            FontSize="20"
+            Grid.Row="1"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Background="WhiteSmoke"
+            BorderBrush="Transparent"
+            Click="OpenHomeDetails"/>
+
+    <Label x:Name="lblScore" 
+           Content="00:00" 
+           FontSize="26" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Center"
+           Grid.Row="1" 
+           Grid.Column="4" 
+           Grid.ColumnSpan="2"/>
+
+    <Button x:Name="lblAwayCountry" 
+            Content="Away" 
+            FontSize="20" 
+            Grid.Row="1" 
+            Grid.Column="6" 
+            Grid.ColumnSpan="2" 
+            Background="WhiteSmoke"
+            BorderBrush="Transparent"
+            Click="OpenAwayDetails"/>
+
+
+    <Image x:Name="imgField"
+           Source="/WPFUI;component/Resources/field.jpg"
+           Margin="10"
+           Grid.Row="2"
+           Grid.Column="0"
+           Grid.ColumnSpan="10"
+           Stretch="Fill"/>
+
+    <StackPanel x:Name="spHomeGoalie" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spHomeDefender" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spHomeMidfield" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spHomeForward" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <StackPanel x:Name="spAwayGoalie" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spAwayDefender" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spAwayMidfield" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="spAwayForward" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Image x:Name="imgLoading"
+           Source="/WPFUI;component/Resources/loading.png"
+           Grid.ColumnSpan="2"
+           Height="100"
+           Width="100"
+           Grid.Row="2"
+           Grid.Column="4"
+           Visibility="Hidden"
+           RenderTransformOrigin=".5,.5">
+      <Image.RenderTransform>
+        <RotateTransform x:Name="AnimatedRotateTransform" Angle="0" />
+      </Image.RenderTransform>
+      <Image.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+          <BeginStoryboard>
+            <Storyboard>
+              <DoubleAnimation Storyboard.TargetName="AnimatedRotateTransform" 
+                            Storyboard.TargetProperty="Angle" 
+                            By="10"
+                            To="360" 
+                            Duration="0:0:2.5"
+                            RepeatBehavior="Forever" />
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger>
+      </Image.Triggers>
+    </Image>
+
+  </Grid>
+</Window>
