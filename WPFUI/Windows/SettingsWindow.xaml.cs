@@ -13,6 +13,7 @@ namespace Football.WPFUI.Windows {
   public partial class SettingsWindow : Window {
     private readonly ISettingsRepository _settingsRepository = SettingsRepositoryFactory.GetRepository();
     private readonly Settings _settings;
+    private readonly Boolean _initialSettings = true;
 
     public SettingsWindow() {
       _settings = _settingsRepository.Load();
@@ -22,6 +23,9 @@ namespace Football.WPFUI.Windows {
 
       Init();
     }
+
+    public SettingsWindow(Boolean initialSettings) : this() => 
+      _initialSettings = initialSettings;
 
     private void PopulateLanguageDDL() => ddlLanguages.SelectedValue = _settings.Language;
 
@@ -46,9 +50,15 @@ namespace Football.WPFUI.Windows {
     }
 
     private void OpenMainWindow() {
-      Hide();
-      _ = new MainWindow().ShowDialog();
-      Close();
+      if (_initialSettings) {
+        Hide();
+        _ = new MainWindow().ShowDialog();
+        Close();
+      }
+      else {
+        DialogResult = true;
+        Close();
+      }
     }
 
     private void SubmitSettings(Object sender, RoutedEventArgs e) {
