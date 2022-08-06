@@ -30,6 +30,7 @@
 
     <!--DDL HOME-->
     <ComboBox x:Name="ddlHomeCountry"
+              FontSize="15"
               Margin="10"
               Grid.Row="0"
               Grid.Column="0"
@@ -94,6 +95,7 @@
 
     <!--DDL AWAY-->
     <ComboBox x:Name="ddlAwayCountry"
+              FontSize="15"
               Margin="10"
               Grid.Row="0"
               Grid.Column="8"
@@ -101,8 +103,7 @@
               SelectionChanged="AwayCountrySelected"/>
 
     <!--LBL/BTN HOME-->
-    <Button x:Name="lblHomeCountry" 
-            Content="Home"
+    <Button x:Name="lblHomeCountry"
             FontSize="20"
             Grid.Row="1"
             Grid.Column="2"
@@ -121,7 +122,6 @@
            Grid.ColumnSpan="2"/>
 
     <Button x:Name="lblAwayCountry" 
-            Content="Away" 
             FontSize="20" 
             Grid.Row="1" 
             Grid.Column="6" 
@@ -139,15 +139,15 @@
            Grid.ColumnSpan="10"
            Stretch="Fill"/>
 
-    <StackPanel x:Name="spHomeGoalie" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spHomeDefender" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spHomeMidfield" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spHomeForward" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="HomeGoalies" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="HomeDefenders" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="HomeMidfields" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="HomeForwards" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-    <StackPanel x:Name="spAwayGoalie" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spAwayDefender" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spAwayMidfield" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    <StackPanel x:Name="spAwayForward" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="AwayGoalies" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="AwayDefenders" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="AwayMidfields" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel x:Name="AwayForwards" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
     <Image x:Name="imgLoading"
            Source="/WPFUI;component/Resources/loading.png"
