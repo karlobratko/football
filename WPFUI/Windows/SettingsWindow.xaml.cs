@@ -58,6 +58,8 @@ namespace Football.WPFUI.Windows {
                                     value: ddlLanguages.SelectedValue.ToString()),
         Resolution = (Resolution)ddlResolutions.SelectedValue,
         Country = _settings.Country,
+        HomeCountry = _settings.HomeCountry,
+        AwayCountry = _settings.AwayCountry
       });
 
       OpenMainWindow();

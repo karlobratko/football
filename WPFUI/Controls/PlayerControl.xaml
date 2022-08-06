@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Football.WPFUI.Controls.PlayerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="80">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="3*"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Image x:Name="imgPlayer"
+           Source="/WPFUI;component/Resources/user.png"
+           Grid.Row="0"
+           Grid.Column="0"
+           Grid.ColumnSpan="2"
+           Width="60"
+           Height="60"
+           HorizontalAlignment="Stretch"
+           VerticalAlignment="Stretch"/>
+
+    <Label x:Name="lblName"
+           FontSize="15"
+           VerticalAlignment="Center"
+           HorizontalAlignment="Center"
+           Grid.Row="2"
+           Grid.Column="0"
+           Grid.ColumnSpan="2"/>
+
+  </Grid>
+</UserControl>
