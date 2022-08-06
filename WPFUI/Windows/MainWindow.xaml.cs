@@ -16,8 +16,8 @@ namespace Football.WPFUI.Windows {
   public partial class MainWindow : Window {
     private readonly ISettingsRepository _settingsRepository = SettingsRepositoryFactory.GetRepository();
     private readonly IFootballRepository _footballRepository = FootballRepositoryFactory.GetRepository();
-    private readonly Settings _settings;
 
+    private Settings _settings;
     private IEnumerable<Country> _countries;
     private IEnumerable<Match> _matches;
 
@@ -166,7 +166,14 @@ namespace Football.WPFUI.Windows {
              });
 
     private void OpenSettings(Object sender, RoutedEventArgs e) {
+      if (new SettingsWindow(initialSettings: false).ShowDialog() == true) {
+        _settings = _settingsRepository.Load();
 
+        Thread.CurrentThread.SetLanguage(language: _settings.Language);
+        InitializeComponent();
+
+        Init();
+      }
     }
 
     private void OpenHomeDetails(Object sender, RoutedEventArgs e) {

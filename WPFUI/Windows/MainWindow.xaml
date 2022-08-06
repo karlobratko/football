@@ -6,8 +6,11 @@
         xmlns:prop="clr-namespace:Football.WPFUI.Properties"
         xmlns:local="clr-namespace:Football.WPFUI.Windows"
         mc:Ignorable="d"
-        Title="MainWindow" Width="800" Height="600">
-  <Grid>
+        Title="MainWindow" 
+        Width="800" 
+        Height="600"
+        WindowStartupLocation="CenterScreen">
+  <Grid x:Name="mainGrid">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
