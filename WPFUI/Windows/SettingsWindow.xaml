@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:prop="clr-namespace:Football.WPFUI.Properties"
-        xmlns:local="clr-namespace:Football.WPFUI.Windows"
+        xmlns:local="clr-namespace:Football.WPFUI.Properties"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:lib="clr-namespace:Football.Library.Models;assembly=Football.Library"
         xmlns:bind="clr-namespace:Football.WPFUI.Binding"
@@ -27,7 +26,7 @@
       <ColumnDefinition Width="0.1*"/>
     </Grid.ColumnDefinitions>
 
-    <Label Content="{x:Static prop:Resources.lblLanguage}"
+    <Label Content="{x:Static local:Resources.lblLanguage}"
            FontSize="15"
            HorizontalAlignment="Left"
            VerticalAlignment="Center"
@@ -41,7 +40,7 @@
               Grid.Column="2"
               ItemsSource="{Binding Source={bind:EnumBinding {x:Type lib:Language}}}"/>
 
-    <Label Content="{x:Static prop:Resources.lblGender}"
+    <Label Content="{x:Static local:Resources.lblGender}"
            FontSize="15"
            HorizontalAlignment="Left"
            VerticalAlignment="Center"
@@ -55,11 +54,11 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Margin="10">
-      <RadioButton x:Name="rbMale" GroupName="gender" Content="{x:Static prop:Resources.rbMale}" FontSize="15" Margin="0,0,30,0"/>
-      <RadioButton x:Name="rbFemale" GroupName="gender" Content="{x:Static prop:Resources.rbFemale}" FontSize="15"/>
+      <RadioButton x:Name="rbMale" GroupName="gender" Content="{x:Static local:Resources.rbMale}" FontSize="15" Margin="0,0,30,0"/>
+      <RadioButton x:Name="rbFemale" GroupName="gender" Content="{x:Static local:Resources.rbFemale}" FontSize="15"/>
     </StackPanel>
 
-    <Label Content="{x:Static prop:Resources.lblResolution}"
+    <Label Content="{x:Static local:Resources.lblResolution}"
            FontSize="15"
            HorizontalAlignment="Left"
            VerticalAlignment="Center"
@@ -83,7 +82,7 @@
         <ColumnDefinition Width="0.1*"/>
       </Grid.ColumnDefinitions>
 
-      <Button Content="{x:Static prop:Resources.btnSubmit}"
+      <Button Content="{x:Static local:Resources.btnSubmit}"
               FontSize="15"
               Grid.Row="0"
               Grid.Column="1"
@@ -93,7 +92,7 @@
               Margin="10,0"
               Click="SubmitSettings"/>
 
-      <Button Content="{x:Static prop:Resources.btnCancel}"
+      <Button Content="{x:Static local:Resources.btnCancel}"
               FontSize="15"
               Grid.Row="0"
               Grid.Column="2"
