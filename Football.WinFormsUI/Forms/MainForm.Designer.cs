@@ -27,6 +27,9 @@
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.tsmiSettings = new System.Windows.Forms.ToolStripMenuItem();
       this.tsmiPrint = new System.Windows.Forms.ToolStripMenuItem();
+      this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
       this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,12 +50,11 @@
       this.printDocument = new System.Drawing.Printing.PrintDocument();
       this.printDialog = new System.Windows.Forms.PrintDialog();
       this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-      this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.pbLoading = new System.Windows.Forms.PictureBox();
       this.menuStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
       this.gbSimpleSettings.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
       this.SuspendLayout();
       // 
       // menuStrip1
@@ -77,6 +79,24 @@
             this.printToolStripMenuItem});
       resources.ApplyResources(this.tsmiPrint, "tsmiPrint");
       this.tsmiPrint.Name = "tsmiPrint";
+      // 
+      // optionsToolStripMenuItem
+      // 
+      this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+      resources.ApplyResources(this.optionsToolStripMenuItem, "optionsToolStripMenuItem");
+      this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintDialog);
+      // 
+      // previewToolStripMenuItem
+      // 
+      this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
+      resources.ApplyResources(this.previewToolStripMenuItem, "previewToolStripMenuItem");
+      this.previewToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintPreview);
+      // 
+      // printToolStripMenuItem
+      // 
+      this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+      resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+      this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintDocument);
       // 
       // statusStrip1
       // 
@@ -196,28 +216,20 @@
       this.printPreviewDialog.Document = this.printDocument;
       this.printPreviewDialog.Name = "printPreviewDialog";
       // 
-      // optionsToolStripMenuItem
+      // pbLoading
       // 
-      this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-      resources.ApplyResources(this.optionsToolStripMenuItem, "optionsToolStripMenuItem");
-      this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintDialog);
-      // 
-      // previewToolStripMenuItem
-      // 
-      this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
-      resources.ApplyResources(this.previewToolStripMenuItem, "previewToolStripMenuItem");
-      this.previewToolStripMenuItem.Click += new System.EventHandler(this.OpenPrintPreview);
-      // 
-      // printToolStripMenuItem
-      // 
-      this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-      resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
-      this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintDocument);
+      resources.ApplyResources(this.pbLoading, "pbLoading");
+      this.pbLoading.Image = global::Football.WinFormsUI.Properties.Resources.loading;
+      this.pbLoading.InitialImage = global::Football.WinFormsUI.Properties.Resources.loading;
+      this.pbLoading.Name = "pbLoading";
+      this.pbLoading.TabStop = false;
       // 
       // MainForm
       // 
       resources.ApplyResources(this, "$this");
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.BackColor = System.Drawing.Color.White;
+      this.Controls.Add(this.pbLoading);
       this.Controls.Add(this.pnlRankedPlayers);
       this.Controls.Add(this.label3);
       this.Controls.Add(this.label2);
@@ -238,6 +250,7 @@
       this.statusStrip1.PerformLayout();
       this.gbSimpleSettings.ResumeLayout(false);
       this.gbSimpleSettings.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -271,5 +284,6 @@
     private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     private System.Windows.Forms.PrintDialog printDialog;
     private System.Windows.Forms.PrintPreviewDialog printPreviewDialog;
+    private System.Windows.Forms.PictureBox pbLoading;
   }
 }
