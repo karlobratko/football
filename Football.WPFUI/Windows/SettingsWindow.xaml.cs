@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 
 using Football.DAL.Models;
 using Football.DAL.Repository.Abstract;
@@ -24,7 +25,7 @@ namespace Football.WPFUI.Windows {
       Init();
     }
 
-    public SettingsWindow(Boolean initialSettings) : this() => 
+    public SettingsWindow(Boolean initialSettings) : this() =>
       _initialSettings = initialSettings;
 
     private void PopulateLanguageDDL() => ddlLanguages.SelectedValue = _settings.Language;
@@ -52,7 +53,7 @@ namespace Football.WPFUI.Windows {
     private void OpenMainWindow() {
       if (_initialSettings) {
         Hide();
-        _ = new MainWindow().ShowDialog();
+        new MainWindow().Show();
         Close();
       }
       else {
@@ -76,5 +77,14 @@ namespace Football.WPFUI.Windows {
     }
 
     private void CancelSettings(Object sender, RoutedEventArgs e) => OpenMainWindow();
+
+    private void KeyClicked(Object sender, System.Windows.Input.KeyEventArgs e) {
+      if (e.Key == Key.Enter) {
+        SubmitSettings(sender, e);
+      }
+      else if (e.Key == Key.Escape) {
+        CancelSettings(sender, e);
+      }
+    }
   }
 }

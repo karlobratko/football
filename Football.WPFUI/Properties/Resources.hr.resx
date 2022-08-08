@@ -126,6 +126,15 @@
   <data name="btnSubmit" xml:space="preserve">
     <value>Potvrdi</value>
   </data>
+  <data name="exit-caption" xml:space="preserve">
+    <value>Napusti aplikaciju?</value>
+  </data>
+  <data name="exit-text" xml:space="preserve">
+    <value>Napustiti ćete aplikaciju.</value>
+  </data>
+  <data name="lblCaptain" xml:space="preserve">
+    <value>Kapetan:</value>
+  </data>
   <data name="lblCode" xml:space="preserve">
     <value>FIFA kod:</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="lblGender" xml:space="preserve">
     <value>Spol:</value>
+  </data>
+  <data name="lblGoals" xml:space="preserve">
+    <value>Broj zabijenih golova:</value>
   </data>
   <data name="lblGoalsAgainst" xml:space="preserve">
     <value>Broj primljenih golova:</value>
@@ -156,11 +168,23 @@
   <data name="lblMatches" xml:space="preserve">
     <value>Broj mečeva:</value>
   </data>
+  <data name="lblName" xml:space="preserve">
+    <value>Naziv:</value>
+  </data>
+  <data name="lblPosition" xml:space="preserve">
+    <value>Pozicija:</value>
+  </data>
   <data name="lblResolution" xml:space="preserve">
     <value>Rezolucija:</value>
   </data>
+  <data name="lblShirtNumber" xml:space="preserve">
+    <value>Broj majce:</value>
+  </data>
   <data name="lblWins" xml:space="preserve">
     <value>Broj pobjeda:</value>
+  </data>
+  <data name="lblYellowCards" xml:space="preserve">
+    <value>Broj žutih kartona:</value>
   </data>
   <data name="rbFemale" xml:space="preserve">
     <value>Žensko</value>

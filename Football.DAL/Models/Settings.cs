@@ -25,8 +25,8 @@ namespace Football.DAL.Models {
 
     public static Resolution[] RESOLUTIONS =>
       new Resolution[] {
-        new Resolution(800, 600),
-        new Resolution(1280, 720),
+        new Resolution(1280, 920),
+        new Resolution(1600, 1200),
         new Resolution(1920, 1080),
       };
 

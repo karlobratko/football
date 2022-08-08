@@ -88,6 +88,24 @@ namespace Football.WPFUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit application?.
+        /// </summary>
+        public static string exit_caption {
+            get {
+                return ResourceManager.GetString("exit-caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to exit application..
+        /// </summary>
+        public static string exit_text {
+            get {
+                return ResourceManager.GetString("exit-text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap field {
@@ -104,6 +122,15 @@ namespace Football.WPFUI.Properties {
             get {
                 object obj = ResourceManager.GetObject("gear", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Captain:.
+        /// </summary>
+        public static string lblCaptain {
+            get {
+                return ResourceManager.GetString("lblCaptain", resourceCulture);
             }
         }
         
@@ -140,6 +167,15 @@ namespace Football.WPFUI.Properties {
         public static string lblGender {
             get {
                 return ResourceManager.GetString("lblGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals:.
+        /// </summary>
+        public static string lblGoals {
+            get {
+                return ResourceManager.GetString("lblGoals", resourceCulture);
             }
         }
         
@@ -198,11 +234,38 @@ namespace Football.WPFUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        public static string lblName {
+            get {
+                return ResourceManager.GetString("lblName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position:.
+        /// </summary>
+        public static string lblPosition {
+            get {
+                return ResourceManager.GetString("lblPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolution:.
         /// </summary>
         public static string lblResolution {
             get {
                 return ResourceManager.GetString("lblResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shirt number:.
+        /// </summary>
+        public static string lblShirtNumber {
+            get {
+                return ResourceManager.GetString("lblShirtNumber", resourceCulture);
             }
         }
         
@@ -216,11 +279,30 @@ namespace Football.WPFUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Yellow cards:.
+        /// </summary>
+        public static string lblYellowCards {
+            get {
+                return ResourceManager.GetString("lblYellowCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap loading {
             get {
                 object obj = ResourceManager.GetObject("loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap playerLoading {
+            get {
+                object obj = ResourceManager.GetObject("playerLoading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

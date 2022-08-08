@@ -3,13 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:prop="clr-namespace:Football.WPFUI.Properties"
-        xmlns:local="clr-namespace:Football.WPFUI.Windows"
         mc:Ignorable="d"
         Title="MainWindow" 
         Width="800" 
         Height="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Closing="MainWindowClosing">
   <Grid x:Name="mainGrid">
 
     <Grid.RowDefinitions>
@@ -116,7 +115,7 @@
             Click="OpenHomeDetails"/>
 
     <Label x:Name="lblScore" 
-           Content="00:00" 
+           Content="0:0" 
            FontSize="26" 
            HorizontalAlignment="Center" 
            VerticalAlignment="Center"
@@ -133,9 +132,15 @@
             BorderBrush="Transparent"
             Click="OpenAwayDetails"/>
 
+    <Image x:Name="imgPlayerLoading"
+           Height="40"
+           Width="40"
+           Visibility="Hidden"
+           Grid.Row="1"
+           Grid.Column="9"/>
 
     <Image x:Name="imgField"
-           Source="/Football.WPFUI;component/Resources/field.jpg"
+           Source="/Football.WPFUI;component/Resources/field.png"
            Margin="10"
            Grid.Row="2"
            Grid.Column="0"
@@ -154,11 +159,11 @@
 
     <Image x:Name="imgLoading"
            Source="/Football.WPFUI;component/Resources/loading.png"
-           Grid.ColumnSpan="2"
            Height="100"
            Width="100"
            Grid.Row="2"
            Grid.Column="4"
+           Grid.ColumnSpan="2"
            Visibility="Hidden"
            RenderTransformOrigin=".5,.5">
       <Image.RenderTransform>

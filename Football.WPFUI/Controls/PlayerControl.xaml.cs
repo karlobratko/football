@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 using Football.DAL.Models;
 using Football.Library.Extensions;
@@ -16,9 +17,14 @@ namespace Football.WPFUI.Controls {
     }
 
     private void Init() {
-      lblName.Content = Player.Name;
+      lblName.Content = SimplifyName(Player.Name);
       if (ImageHelper.ImageExists(fileName: Player.Name))
         imgPlayer.Source = ImageHelper.LoadImage(fileName: Player.Name).ToBitmap();
+    }
+
+    private String SimplifyName(String fullName) {
+      String[] parts = fullName.Split(' ');
+      return parts[0] + " " + parts[1].Substring(0, 3);
     }
   }
 }
