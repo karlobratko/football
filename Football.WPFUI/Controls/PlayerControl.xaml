@@ -17,7 +17,7 @@
     </Grid.ColumnDefinitions>
 
     <Image x:Name="imgPlayer"
-           Source="/WPFUI;component/Resources/user.png"
+           Source="/Football.WPFUI;component/Resources/user.png"
            Grid.Row="0"
            Grid.Column="0"
            Grid.ColumnSpan="2"

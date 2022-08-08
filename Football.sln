@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.DAL", "Football.DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Library", "Football.Library\Football.Library.csproj", "{C42E6D47-B12A-4943-AD39-66A9E53FB02E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.WPFUI", "WPFUI\Football.WPFUI.csproj", "{BADF584F-2BB0-4317-96C9-F5A228F1C31B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.WPFUI", "Football.WPFUI\Football.WPFUI.csproj", "{BADF584F-2BB0-4317-96C9-F5A228F1C31B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Resources", "Football.Resources\Football.Resources.csproj", "{363756BB-E708-4CE9-9651-1F657CCE363C}"
 EndProject

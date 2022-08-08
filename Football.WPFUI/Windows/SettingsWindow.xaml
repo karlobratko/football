@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Football.WPFUI.Properties"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:lib="clr-namespace:Football.Library.Models;assembly=Football.Library"
+        xmlns:local="clr-namespace:Football.WPFUI.Properties"
         xmlns:bind="clr-namespace:Football.WPFUI.Binding"
         mc:Ignorable="d"
         Title="SettingsWindow" Width="400" Height="250"
@@ -55,8 +54,15 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
                 Margin="10">
-      <RadioButton x:Name="rbMale" GroupName="gender" Content="{x:Static local:Resources.rbMale}" FontSize="15" Margin="0,0,30,0"/>
-      <RadioButton x:Name="rbFemale" GroupName="gender" Content="{x:Static local:Resources.rbFemale}" FontSize="15"/>
+      <RadioButton x:Name="rbMale" 
+                   GroupName="gender" 
+                   Content="{x:Static local:Resources.rbMale}"
+                   FontSize="15" 
+                   Margin="0,0,30,0"/>
+      <RadioButton x:Name="rbFemale" 
+                   GroupName="gender" 
+                   Content="{x:Static local:Resources.rbFemale}"
+                   FontSize="15"/>
     </StackPanel>
 
     <Label Content="{x:Static local:Resources.lblResolution}"
