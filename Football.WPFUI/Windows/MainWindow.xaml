@@ -61,7 +61,7 @@
               Click="OpenSettings">
         <Grid x:Name="RotateGrid">
           <Image x:Name="imgGear"
-                 Source="/WPFUI;component/Resources/gear.png" 
+                 Source="/Football.WPFUI;component/Resources/gear.png" 
                  Stretch="Fill"
                  Width="35"
                  Height="35"/>
@@ -135,7 +135,7 @@
 
 
     <Image x:Name="imgField"
-           Source="/WPFUI;component/Resources/field.jpg"
+           Source="/Football.WPFUI;component/Resources/field.jpg"
            Margin="10"
            Grid.Row="2"
            Grid.Column="0"
@@ -153,7 +153,7 @@
     <StackPanel x:Name="AwayForwards" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
     <Image x:Name="imgLoading"
-           Source="/WPFUI;component/Resources/loading.png"
+           Source="/Football.WPFUI;component/Resources/loading.png"
            Grid.ColumnSpan="2"
            Height="100"
            Width="100"

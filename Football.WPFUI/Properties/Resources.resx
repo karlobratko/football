@@ -120,6 +120,9 @@
   <data name="btnCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="btnClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="btnSubmit" xml:space="preserve">
     <value>Submit</value>
   </data>
@@ -130,14 +133,41 @@
   <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="lblCode" xml:space="preserve">
+    <value>FIFA code:</value>
+  </data>
+  <data name="lblCountry" xml:space="preserve">
+    <value>Country:</value>
+  </data>
+  <data name="lblDraws" xml:space="preserve">
+    <value>Draw count:</value>
+  </data>
   <data name="lblGender" xml:space="preserve">
     <value>Gender:</value>
+  </data>
+  <data name="lblGoalsAgainst" xml:space="preserve">
+    <value>Goals against:</value>
+  </data>
+  <data name="lblGoalsDiff" xml:space="preserve">
+    <value>Goals difference:</value>
+  </data>
+  <data name="lblGoalsFor" xml:space="preserve">
+    <value>Goals for:</value>
   </data>
   <data name="lblLanguage" xml:space="preserve">
     <value>Language:</value>
   </data>
+  <data name="lblLost" xml:space="preserve">
+    <value>Lost count:</value>
+  </data>
+  <data name="lblMatches" xml:space="preserve">
+    <value>Matches count:</value>
+  </data>
   <data name="lblResolution" xml:space="preserve">
     <value>Resolution:</value>
+  </data>
+  <data name="lblWins" xml:space="preserve">
+    <value>Wins count:</value>
   </data>
   <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

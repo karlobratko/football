@@ -120,17 +120,47 @@
   <data name="btnCancel" xml:space="preserve">
     <value>Odustani</value>
   </data>
+  <data name="btnClose" xml:space="preserve">
+    <value>Zatvori</value>
+  </data>
   <data name="btnSubmit" xml:space="preserve">
     <value>Potvrdi</value>
+  </data>
+  <data name="lblCode" xml:space="preserve">
+    <value>FIFA kod:</value>
+  </data>
+  <data name="lblCountry" xml:space="preserve">
+    <value>Država:</value>
+  </data>
+  <data name="lblDraws" xml:space="preserve">
+    <value>Broj nerješenih:</value>
   </data>
   <data name="lblGender" xml:space="preserve">
     <value>Spol:</value>
   </data>
+  <data name="lblGoalsAgainst" xml:space="preserve">
+    <value>Broj primljenih golova:</value>
+  </data>
+  <data name="lblGoalsDiff" xml:space="preserve">
+    <value>Razlika golova:</value>
+  </data>
+  <data name="lblGoalsFor" xml:space="preserve">
+    <value>Broj zabijenih golova:</value>
+  </data>
   <data name="lblLanguage" xml:space="preserve">
     <value>Jezik:</value>
   </data>
+  <data name="lblLost" xml:space="preserve">
+    <value>Broj gubitaka:</value>
+  </data>
+  <data name="lblMatches" xml:space="preserve">
+    <value>Broj mečeva:</value>
+  </data>
   <data name="lblResolution" xml:space="preserve">
     <value>Rezolucija:</value>
+  </data>
+  <data name="lblWins" xml:space="preserve">
+    <value>Broj pobjeda:</value>
   </data>
   <data name="rbFemale" xml:space="preserve">
     <value>Žensko</value>
