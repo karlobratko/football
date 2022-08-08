@@ -126,12 +126,21 @@
   <data name="btnSubmit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="exit-caption" xml:space="preserve">
+    <value>Exit application?</value>
+  </data>
+  <data name="exit-text" xml:space="preserve">
+    <value>You are about to exit application.</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="field" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\field.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\field.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lblCaptain" xml:space="preserve">
+    <value>Captain:</value>
   </data>
   <data name="lblCode" xml:space="preserve">
     <value>FIFA code:</value>
@@ -144,6 +153,9 @@
   </data>
   <data name="lblGender" xml:space="preserve">
     <value>Gender:</value>
+  </data>
+  <data name="lblGoals" xml:space="preserve">
+    <value>Goals:</value>
   </data>
   <data name="lblGoalsAgainst" xml:space="preserve">
     <value>Goals against:</value>
@@ -163,14 +175,29 @@
   <data name="lblMatches" xml:space="preserve">
     <value>Matches count:</value>
   </data>
+  <data name="lblName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="lblPosition" xml:space="preserve">
+    <value>Position:</value>
+  </data>
   <data name="lblResolution" xml:space="preserve">
     <value>Resolution:</value>
+  </data>
+  <data name="lblShirtNumber" xml:space="preserve">
+    <value>Shirt number:</value>
   </data>
   <data name="lblWins" xml:space="preserve">
     <value>Wins count:</value>
   </data>
+  <data name="lblYellowCards" xml:space="preserve">
+    <value>Yellow cards:</value>
+  </data>
   <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerLoading" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playerLoading.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rbFemale" xml:space="preserve">
     <value>Female</value>

@@ -1,0 +1,115 @@
+﻿<Window x:Class="Football.WPFUI.Windows.PlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang="clr-namespace:Football.WPFUI.Properties"
+        mc:Ignorable="d"
+        Title="PlayerWindow" 
+        Width="350"
+        Height="430" 
+        WindowStartupLocation="CenterOwner">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="4*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="1.5*"/>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*"/>
+      <ColumnDefinition Width="2*"/>
+    </Grid.ColumnDefinitions>
+
+    <Image x:Name="imgPlayer"
+           Source="/Football.WPFUI;component/Resources/user.png"
+           Grid.ColumnSpan="2" 
+           Margin="5"/>
+
+    <Label Content="{x:Static lang:Resources.lblName}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="1"/>
+    <Label Content="{x:Static lang:Resources.lblShirtNumber}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="2"/>
+    <Label Content="{x:Static lang:Resources.lblCaptain}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="3"/>
+    <Label Content="{x:Static lang:Resources.lblPosition}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="4"/>
+    <Label Content="{x:Static lang:Resources.lblGoals}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="5"/>
+    <Label Content="{x:Static lang:Resources.lblYellowCards}"
+           FontSize="15"
+           HorizontalContentAlignment="Left"
+           VerticalContentAlignment="Center"
+           Margin="5,0,0,0"
+           Grid.Row="6"/>
+
+    <Label x:Name="lblName"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="1"
+           Grid.Column="1"/>
+    <Label x:Name="lblShirtNumber"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="2"
+           Grid.Column="1"/>
+    <Label x:Name="lblCaptain"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="3"
+           Grid.Column="1"/>
+    <Label x:Name="lblPosition"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="4"
+           Grid.Column="1"/>
+    <Label x:Name="lblGoals"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="5"
+           Grid.Column="1"/>
+    <Label x:Name="lblYellowCards"
+           FontSize="15"
+           HorizontalContentAlignment="Center"
+           VerticalContentAlignment="Center"
+           Grid.Row="6"
+           Grid.Column="1"/>
+
+    <Button FontSize="15"
+            Content="{x:Static lang:Resources.btnClose}"
+            Grid.Row="7"
+            Grid.Column="1"
+            Margin="10"
+            Click="CloseWindow"/>
+  </Grid>
+</Window>

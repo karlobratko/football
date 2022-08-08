@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 using Football.DAL.Models;
 using Football.DAL.Repository.Abstract;
@@ -12,6 +15,8 @@ using Football.DAL.Repository.Factory;
 using Football.Library.Extensions;
 
 using Football.WPFUI.Controls;
+
+using WpfAnimatedGif;
 
 using WPFUI.Windows;
 
@@ -45,7 +50,8 @@ namespace Football.WPFUI.Windows {
 
       ClearField();
       PopulateHomeCountryDDL();
-      SetSelectedCountries();
+
+      ddlHomeCountry.SelectedItem = _settings.HomeCountry;
     }
 
     private void SetResolution() {
@@ -61,12 +67,12 @@ namespace Football.WPFUI.Windows {
       _countries.ToList()
                 .ForEach(action: country => ddlHomeCountry.Items.Add(country));
 
-    private void SetSelectedCountries() {
-      ddlHomeCountry.SelectedItem = _settings.HomeCountry;
-      ddlAwayCountry.SelectedItem = _settings.AwayCountry;
-    }
-
     private void HomeCountrySelected(Object sender, SelectionChangedEventArgs e) {
+      if (ddlHomeCountry.SelectedItem is null) {
+        ClearField();
+        return;
+      }
+
       ClearAwayUIInfo();
 
       _settings.HomeCountry = (Country)ddlHomeCountry.SelectedItem;
@@ -76,7 +82,7 @@ namespace Football.WPFUI.Windows {
 
       lblHomeCountry.Content = _settings.HomeCountry.Name;
       PopulateAwayCountryDDL();
-      ddlAwayCountry.SelectedItem = null;
+      ddlAwayCountry.SelectedItem = _settings.AwayCountry;
 
       StopLoading();
     }
@@ -84,7 +90,7 @@ namespace Football.WPFUI.Windows {
     private void ClearAwayUIInfo() {
       ddlAwayCountry.Items.Clear();
       lblAwayCountry.Content = String.Empty;
-      lblScore.Content = "00:00";
+      lblScore.Content = "0:0";
     }
 
     private void PopulateAwayCountryDDL() =>
@@ -93,13 +99,13 @@ namespace Football.WPFUI.Windows {
               .ForEach(action: match => ddlAwayCountry.Items.Add(_countries.FirstOrDefault(predicate: country => match.AwayFrom(country))));
 
     private void AwayCountrySelected(Object sender, SelectionChangedEventArgs e) {
-      _settings.AwayCountry = (Country)ddlAwayCountry.SelectedItem;
-      _settingsRepository.Save(_settings);
-
       if (ddlAwayCountry.SelectedItem is null) {
         ClearField();
         return;
       }
+
+      _settings.AwayCountry = (Country)ddlAwayCountry.SelectedItem;
+      _settingsRepository.Save(_settings);
 
       StartLoading();
 
@@ -150,7 +156,7 @@ namespace Football.WPFUI.Windows {
         player.Goals = playerEvents.Count(predicate: MatchEvent.IsGoal);
         player.YellowCards = playerEvents.Count(predicate: MatchEvent.IsYellowCard);
 
-        return new PlayerControl(player);
+        return InitPlayerControl(player);
       })
              .ToList()
              .ForEach(action: control => {
@@ -177,6 +183,31 @@ namespace Football.WPFUI.Windows {
                    break;
                }
              });
+    private PlayerControl InitPlayerControl(Player player) {
+      var control = new PlayerControl(player);
+
+      control.MouseLeftButtonDown += OpenPlayerWindow(player);
+
+      return control;
+    }
+
+    private MouseButtonEventHandler OpenPlayerWindow(Player player) =>
+      (Object sender, MouseButtonEventArgs e) => {
+        var image = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/playerLoading.gif")));
+        ImageBehavior.SetAnimatedSource(imgPlayerLoading, image);
+        imgPlayerLoading.Visibility = Visibility.Visible;
+
+        _ = Task.Factory
+                .StartNew(() => Thread.Sleep(300))
+                .ContinueWith(task => {
+                  imgPlayerLoading.Visibility = Visibility.Hidden;
+
+                  var playerWindow = new PlayerWindow(player) {
+                    Owner = this
+                  };
+                  _ = playerWindow.ShowDialog();
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+      };
 
     private void ShowScore() {
       Match theMatch = _matches.FirstOrDefault(predicate: match => match.HomeCountry.Contains(_settings.HomeCountry.Name) &&
@@ -193,6 +224,11 @@ namespace Football.WPFUI.Windows {
         Thread.CurrentThread.SetLanguage(language: _settings.Language);
         InitializeComponent();
 
+        ddlHomeCountry.SelectedItem = null;
+        ddlAwayCountry.SelectedItem = null;
+        ddlHomeCountry.Items.Clear();
+        ddlAwayCountry.Items.Clear();
+
         Init();
       }
     }
@@ -207,7 +243,7 @@ namespace Football.WPFUI.Windows {
       StartLoading();
       _ = Task.Factory
           .StartNew(() => Thread.Sleep(500))
-          .ContinueWith((t) => {
+          .ContinueWith(task => {
             StopLoading();
 
             Result countryResult =
@@ -220,6 +256,18 @@ namespace Football.WPFUI.Windows {
               _ = countryWindow.ShowDialog();
             }
           }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    private void MainWindowClosing(Object sender, System.ComponentModel.CancelEventArgs e) {
+      MessageBoxResult messageBoxResult = 
+        MessageBox.Show(owner: this,
+                        messageBoxText: Properties.Resources.ResourceManager.GetString("exit-text"),
+                        caption: Properties.Resources.ResourceManager.GetString("exit-caption"),
+                        button: MessageBoxButton.YesNo,
+                        icon: MessageBoxImage.Question,
+                        defaultResult: MessageBoxResult.No);
+
+      e.Cancel = messageBoxResult == MessageBoxResult.No;
     }
   }
 }
