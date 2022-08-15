@@ -69,6 +69,8 @@ namespace Football.WinFormsUI {
 
     private async void PopulateCountriesDDL() {
       try {
+        SetLoading(true);
+
         Status = Properties.Resources.ResourceManager.GetString("fetching-country-data");
 
         IEnumerable<Country> countries = await _footballRepository.ReadCountries(gender: _settings.Gender);
@@ -76,6 +78,8 @@ namespace Football.WinFormsUI {
                   .AddRange(items:
                     countries.OrderBy(keySelector: country => country.Name)
                              .ToArray());
+        SetLoading(false);
+
         ddlCountry.SelectedItem = _settings.Country;
 
         Status = Properties.Resources.ResourceManager.GetString("select-country");
@@ -106,6 +110,8 @@ namespace Football.WinFormsUI {
               .ForEach(action: control => control.Controls.Clear());
 
       try {
+        SetLoading(true);
+
         UpdateProgress(6);
         var matches = (HashSet<Match>)await _footballRepository.ReadMatches(gender: _settings.Gender);
 
@@ -161,6 +167,8 @@ namespace Football.WinFormsUI {
                                  .ToArray());
 
         Status = Properties.Resources.ResourceManager.GetString("fetching-success");
+
+        SetLoading(false);
       }
       catch (Exception e) {
         _ = MessageBox.Show(text: e.Message,
@@ -169,6 +177,12 @@ namespace Football.WinFormsUI {
                             icon: MessageBoxIcon.Error);
         Status = e.Message;
       }
+    }
+
+    private void SetLoading(Boolean displayLoader) {
+      pbLoading.Enabled = displayLoader;
+      pbLoading.Visible = displayLoader;
+      Cursor = displayLoader ? Cursors.WaitCursor : Cursors.Default;
     }
 
     private PlayerControl InitPlayerControl(Player player) {

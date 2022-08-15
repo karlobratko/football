@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C42E6D47-B12A-4943-AD39-66A9E53FB02E}</ProjectGuid>
+    <ProjectGuid>{363756BB-E708-4CE9-9651-1F657CCE363C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Football.Library</RootNamespace>
-    <AssemblyName>Football.Library</AssemblyName>
+    <RootNamespace>Football.Resources</RootNamespace>
+    <AssemblyName>Football.Resources</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,34 +31,54 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\LocalizedDescriptionAttribute.cs" />
-    <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Extensions\ImageExtensions.cs" />
-    <Compile Include="Extensions\ThreadExtensions.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Models\Gender.cs" />
-    <Compile Include="Models\Language.cs" />
+    <Compile Include="Global\Resources.hr.Designer.cs">
+      <DependentUpon>Resources.hr.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Global\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Football.Resources\Football.Resources.csproj">
-      <Project>{363756bb-e708-4ce9-9651-1f657cce363c}</Project>
-      <Name>Football.Resources</Name>
-    </ProjectReference>
+    <None Include="men\group_results.json" />
+    <None Include="men\matches.json" />
+    <None Include="men\results.json" />
+    <None Include="men\teams.json" />
+    <None Include="women\group_results.json" />
+    <None Include="women\matches.json" />
+    <None Include="women\results.json" />
+    <None Include="women\teams.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="img-dynamic\" />
+    <Folder Include="img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Global\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Global\Resources.hr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.hr.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

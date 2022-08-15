@@ -117,77 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="dnd-text" xml:space="preserve">
-    <value>Remove player from list of favourite players.</value>
-  </data>
-  <data name="dnd-title" xml:space="preserve">
-    <value>Maximum number of favourite players</value>
-  </data>
   <data name="En" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="error-title" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="exit-text" xml:space="preserve">
-    <value>You are about to exit, do you want to save your changes before exiting?</value>
-  </data>
-  <data name="exit-title" xml:space="preserve">
-    <value>Exit?</value>
-  </data>
-  <data name="favourites-add" xml:space="preserve">
-    <value>Add to favourites</value>
-  </data>
-  <data name="favourites-remove" xml:space="preserve">
-    <value>Remove from favourites</value>
-  </data>
-  <data name="Female" xml:space="preserve">
-    <value>Female</value>
-  </data>
-  <data name="fetching-country-data" xml:space="preserve">
-    <value>Fetching countries data, please wait...</value>
-  </data>
-  <data name="fetching-football-data" xml:space="preserve">
-    <value>Fetching matches data, please wait...</value>
-  </data>
-  <data name="fetching-success" xml:space="preserve">
-    <value>Data fetched successfully...</value>
-  </data>
   <data name="Hr" xml:space="preserve">
     <value>Croatian</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\loading.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Male" xml:space="preserve">
-    <value>Male</value>
-  </data>
-  <data name="player-captain" xml:space="preserve">
-    <value>Captain</value>
-  </data>
-  <data name="print-matches-rank-format" xml:space="preserve">
-    <value>Home: {0}, Away: {1}, Location: {2}, Attendance: {3}</value>
-  </data>
-  <data name="print-matches-rank-title" xml:space="preserve">
-    <value>Ranked matches:</value>
-  </data>
-  <data name="print-players-rank-format" xml:space="preserve">
-    <value>Name: {0}, Shirt number: {1}, Position: {2}, Goals: {3}, Yellow cards: {4}</value>
-  </data>
-  <data name="print-players-rank-title" xml:space="preserve">
-    <value>Ranked players:</value>
-  </data>
-  <data name="print-title" xml:space="preserve">
-    <value>Ranked information</value>
-  </data>
-  <data name="select-country" xml:space="preserve">
-    <value>Select country</value>
-  </data>
-  <data name="star" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="user" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\user.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

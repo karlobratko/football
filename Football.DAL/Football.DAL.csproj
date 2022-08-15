@@ -80,6 +80,7 @@
     <Compile Include="Configuration\Endpoints.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Resolution.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Player.cs" />

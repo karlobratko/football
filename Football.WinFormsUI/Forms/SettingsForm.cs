@@ -68,6 +68,8 @@ namespace Football.WinFormsUI.Forms {
                                         value: ddlLanguage.SelectedValue.ToString()),
         Resolution = _settings.Resolution,
         Country = _settings.Country,
+        HomeCountry = _settings.HomeCountry,
+        AwayCountry = _settings.AwayCountry
       });
 
       OpenMainForm();

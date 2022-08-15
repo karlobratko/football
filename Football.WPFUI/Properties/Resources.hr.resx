@@ -117,77 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="dnd-text" xml:space="preserve">
-    <value>Remove player from list of favourite players.</value>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Odustani</value>
   </data>
-  <data name="dnd-title" xml:space="preserve">
-    <value>Maximum number of favourite players</value>
+  <data name="btnClose" xml:space="preserve">
+    <value>Zatvori</value>
   </data>
-  <data name="En" xml:space="preserve">
-    <value>English</value>
+  <data name="btnSubmit" xml:space="preserve">
+    <value>Potvrdi</value>
   </data>
-  <data name="error-title" xml:space="preserve">
-    <value>Error</value>
+  <data name="exit-caption" xml:space="preserve">
+    <value>Napusti aplikaciju?</value>
   </data>
   <data name="exit-text" xml:space="preserve">
-    <value>You are about to exit, do you want to save your changes before exiting?</value>
+    <value>Napustiti ćete aplikaciju.</value>
   </data>
-  <data name="exit-title" xml:space="preserve">
-    <value>Exit?</value>
+  <data name="lblCaptain" xml:space="preserve">
+    <value>Kapetan:</value>
   </data>
-  <data name="favourites-add" xml:space="preserve">
-    <value>Add to favourites</value>
+  <data name="lblCode" xml:space="preserve">
+    <value>FIFA kod:</value>
   </data>
-  <data name="favourites-remove" xml:space="preserve">
-    <value>Remove from favourites</value>
+  <data name="lblCountry" xml:space="preserve">
+    <value>Država:</value>
   </data>
-  <data name="Female" xml:space="preserve">
-    <value>Female</value>
+  <data name="lblDraws" xml:space="preserve">
+    <value>Broj nerješenih:</value>
   </data>
-  <data name="fetching-country-data" xml:space="preserve">
-    <value>Fetching countries data, please wait...</value>
+  <data name="lblGender" xml:space="preserve">
+    <value>Spol:</value>
   </data>
-  <data name="fetching-football-data" xml:space="preserve">
-    <value>Fetching matches data, please wait...</value>
+  <data name="lblGoals" xml:space="preserve">
+    <value>Broj zabijenih golova:</value>
   </data>
-  <data name="fetching-success" xml:space="preserve">
-    <value>Data fetched successfully...</value>
+  <data name="lblGoalsAgainst" xml:space="preserve">
+    <value>Broj primljenih golova:</value>
   </data>
-  <data name="Hr" xml:space="preserve">
-    <value>Croatian</value>
+  <data name="lblGoalsDiff" xml:space="preserve">
+    <value>Razlika golova:</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\loading.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblGoalsFor" xml:space="preserve">
+    <value>Broj zabijenih golova:</value>
   </data>
-  <data name="Male" xml:space="preserve">
-    <value>Male</value>
+  <data name="lblLanguage" xml:space="preserve">
+    <value>Jezik:</value>
   </data>
-  <data name="player-captain" xml:space="preserve">
-    <value>Captain</value>
+  <data name="lblLost" xml:space="preserve">
+    <value>Broj gubitaka:</value>
   </data>
-  <data name="print-matches-rank-format" xml:space="preserve">
-    <value>Home: {0}, Away: {1}, Location: {2}, Attendance: {3}</value>
+  <data name="lblMatches" xml:space="preserve">
+    <value>Broj mečeva:</value>
   </data>
-  <data name="print-matches-rank-title" xml:space="preserve">
-    <value>Ranked matches:</value>
+  <data name="lblName" xml:space="preserve">
+    <value>Naziv:</value>
   </data>
-  <data name="print-players-rank-format" xml:space="preserve">
-    <value>Name: {0}, Shirt number: {1}, Position: {2}, Goals: {3}, Yellow cards: {4}</value>
+  <data name="lblPosition" xml:space="preserve">
+    <value>Pozicija:</value>
   </data>
-  <data name="print-players-rank-title" xml:space="preserve">
-    <value>Ranked players:</value>
+  <data name="lblResolution" xml:space="preserve">
+    <value>Rezolucija:</value>
   </data>
-  <data name="print-title" xml:space="preserve">
-    <value>Ranked information</value>
+  <data name="lblShirtNumber" xml:space="preserve">
+    <value>Broj majce:</value>
   </data>
-  <data name="select-country" xml:space="preserve">
-    <value>Select country</value>
+  <data name="lblWins" xml:space="preserve">
+    <value>Broj pobjeda:</value>
   </data>
-  <data name="star" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\star.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="lblYellowCards" xml:space="preserve">
+    <value>Broj žutih kartona:</value>
   </data>
-  <data name="user" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\user.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rbFemale" xml:space="preserve">
+    <value>Žensko</value>
+  </data>
+  <data name="rbMale" xml:space="preserve">
+    <value>Muško</value>
   </data>
 </root>
