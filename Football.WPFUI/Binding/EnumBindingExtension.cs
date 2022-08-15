@@ -8,6 +8,7 @@ namespace Football.WPFUI.Binding {
     public EnumBindingExtension(Type enumType) =>
       EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
 
-    public override Object ProvideValue(IServiceProvider serviceProvider) => Enum.GetValues(EnumType);
+    public override Object ProvideValue(IServiceProvider serviceProvider) => 
+      Enum.GetValues(EnumType);
   }
 }
