@@ -85,6 +85,9 @@ namespace Football.WinFormsUI.Controls {
       tsmiRemoveImage.Enabled = false;
     }
 
+    public void MakeFavourite() => pbFavourite.Visible = true;
+    public void UnmakeFavourite() => pbFavourite.Visible = false;
+
     public class ImageChangedEventArgs : EventArgs {
       public String ImagePath { get; set; }
       public Player Player { get; set; }
