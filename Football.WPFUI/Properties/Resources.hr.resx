@@ -186,10 +186,16 @@
   <data name="lblYellowCards" xml:space="preserve">
     <value>Broj žutih kartona:</value>
   </data>
+  <data name="main-title" xml:space="preserve">
+    <value>Nogomet</value>
+  </data>
   <data name="rbFemale" xml:space="preserve">
     <value>Žensko</value>
   </data>
   <data name="rbMale" xml:space="preserve">
     <value>Muško</value>
+  </data>
+  <data name="settings-title" xml:space="preserve">
+    <value>Postavke</value>
   </data>
 </root>

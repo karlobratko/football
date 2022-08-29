@@ -15,6 +15,7 @@ namespace WPFUI.Windows {
     }
 
     private void Init() {
+      Title = CountryResult.ToString();
       lblCountry.Content = CountryResult.ToString();
       lblMatches.Content = CountryResult.GamesPlayed;
       lblWins.Content = CountryResult.Wins;

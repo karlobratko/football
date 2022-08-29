@@ -298,6 +298,15 @@ namespace Football.WPFUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Football.
+        /// </summary>
+        public static string main_title {
+            get {
+                return ResourceManager.GetString("main-title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap playerLoading {
@@ -322,6 +331,15 @@ namespace Football.WPFUI.Properties {
         public static string rbMale {
             get {
                 return ResourceManager.GetString("rbMale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string settings_title {
+            get {
+                return ResourceManager.GetString("settings-title", resourceCulture);
             }
         }
         

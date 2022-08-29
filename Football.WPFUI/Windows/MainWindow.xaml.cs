@@ -22,6 +22,8 @@ using WPFUI.Windows;
 
 namespace Football.WPFUI.Windows {
   public partial class MainWindow : Window {
+    private const String DEFAULT_SCORE = "0:0";
+
     private readonly ISettingsRepository _settingsRepository = SettingsRepositoryFactory.GetRepository();
     private readonly IFootballRepository _footballRepository = FootballRepositoryFactory.GetRepository();
 
@@ -41,6 +43,8 @@ namespace Football.WPFUI.Windows {
 
     private async void Init() {
       SetResolution();
+
+      Title = Properties.Resources.ResourceManager.GetString("main-title");
 
       StartLoading();
       _countries = await _footballRepository.ReadCountries(gender: _settings.Gender);
@@ -90,13 +94,16 @@ namespace Football.WPFUI.Windows {
     private void ClearAwayUIInfo() {
       ddlAwayCountry.Items.Clear();
       lblAwayCountry.Content = String.Empty;
-      lblScore.Content = "0:0";
+      lblScore.Content = DEFAULT_SCORE;
     }
 
     private void PopulateAwayCountryDDL() =>
       _matches.Where(predicate: match => match.HomeFrom(_settings.HomeCountry))
               .ToList()
-              .ForEach(action: match => ddlAwayCountry.Items.Add(_countries.FirstOrDefault(predicate: country => match.AwayFrom(country))));
+              .ForEach(action: match =>
+                ddlAwayCountry.Items.Add(newItem:
+                  _countries.FirstOrDefault(predicate: country =>
+                                              match.AwayFrom(country))));
 
     private void AwayCountrySelected(Object sender, SelectionChangedEventArgs e) {
       if (ddlAwayCountry.SelectedItem is null) {
@@ -125,8 +132,12 @@ namespace Football.WPFUI.Windows {
                                   match.AwayFrom(_settings.AwayCountry));
       if (theMatch is null) return;
 
-      PopulateFieldSide(country: _settings.HomeCountry, players: theMatch.HomeLayout.StartingEleven, events: theMatch.HomeEvents);
-      PopulateFieldSide(country: _settings.AwayCountry, players: theMatch.AwayLayout.StartingEleven, events: theMatch.AwayEvents);
+      PopulateFieldSide(country: _settings.HomeCountry,
+                        players: theMatch.HomeLayout.StartingEleven,
+                        events: theMatch.HomeEvents);
+      PopulateFieldSide(country: _settings.AwayCountry,
+                        players: theMatch.AwayLayout.StartingEleven,
+                        events: theMatch.AwayEvents);
     }
 
     private void ClearField() {
@@ -148,7 +159,9 @@ namespace Football.WPFUI.Windows {
       AwayForwards.Children.Clear();
     }
 
-    private void PopulateFieldSide(Country country, HashSet<Player> players, List<MatchEvent> events) =>
+    private void PopulateFieldSide(Country country,
+                                   HashSet<Player> players,
+                                   List<MatchEvent> events) =>
       players.Select(selector: player => {
         IEnumerable<MatchEvent> playerEvents =
               events.Where(predicate: e => e.Player == player.Name);
@@ -193,29 +206,39 @@ namespace Football.WPFUI.Windows {
 
     private MouseButtonEventHandler OpenPlayerWindow(Player player) =>
       (Object sender, MouseButtonEventArgs e) => {
-        var image = new BitmapImage(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/playerLoading.gif")));
+        var image =
+          new BitmapImage(uriSource:
+            new Uri(uriString:
+              Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                           "Resources/playerLoading.gif")));
         ImageBehavior.SetAnimatedSource(imgPlayerLoading, image);
         imgPlayerLoading.Visibility = Visibility.Visible;
 
         _ = Task.Factory
-                .StartNew(() => Thread.Sleep(300))
-                .ContinueWith(task => {
+                .StartNew(action: () => Thread.Sleep(300))
+                .ContinueWith(continuationAction: task => {
                   imgPlayerLoading.Visibility = Visibility.Hidden;
 
                   var playerWindow = new PlayerWindow(player) {
                     Owner = this
                   };
                   _ = playerWindow.ShowDialog();
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                }, scheduler: TaskScheduler.FromCurrentSynchronizationContext());
       };
 
     private void ShowScore() {
-      Match theMatch = _matches.FirstOrDefault(predicate: match => match.HomeCountry.Contains(_settings.HomeCountry.Name) &&
-                                                                   match.AwayCountry.Contains(_settings.AwayCountry.Name));
+      Match theMatch =
+        _matches.FirstOrDefault(predicate:
+          match => match.HomeCountry.Contains(_settings.HomeCountry.Name) &&
+                   match.AwayCountry.Contains(_settings.AwayCountry.Name));
       if (theMatch is null) return;
 
-      lblScore.Content = $"{theMatch.HomeResults.Goals} : {theMatch.AwayResults.Goals}";
+      ShowScore(homeGoals: theMatch.HomeResults.Goals,
+                awayGoals: theMatch.AwayResults.Goals);
     }
+
+    private void ShowScore(Int32 homeGoals, Int32 awayGoals) =>
+      lblScore.Content = $"{homeGoals} : {awayGoals}";
 
     private void OpenSettings(Object sender, RoutedEventArgs e) {
       if (new SettingsWindow(initialSettings: false).ShowDialog() == true) {
@@ -233,33 +256,35 @@ namespace Football.WPFUI.Windows {
       }
     }
 
-    private void OpenHomeDetails(Object sender, RoutedEventArgs e) => OpenDetails(_settings.HomeCountry);
+    private void OpenHomeDetails(Object sender, RoutedEventArgs e) =>
+      OpenDetails(_settings.HomeCountry);
 
-    private void OpenAwayDetails(Object sender, RoutedEventArgs e) => OpenDetails(_settings.AwayCountry);
+    private void OpenAwayDetails(Object sender, RoutedEventArgs e) =>
+      OpenDetails(_settings.AwayCountry);
 
     private void OpenDetails(Country country) {
       if (country is null) return;
 
       StartLoading();
       _ = Task.Factory
-          .StartNew(() => Thread.Sleep(500))
-          .ContinueWith(task => {
-            StopLoading();
+              .StartNew(action: () => Thread.Sleep(500))
+              .ContinueWith(continuationAction: task => {
+                StopLoading();
 
-            Result countryResult =
-              _results.FirstOrDefault(predicate: result =>
-                                        result.Country.Contains(country.Name));
-            if (countryResult != null) {
-              var countryWindow = new CountryWindow(countryResult) {
-                Owner = this
-              };
-              _ = countryWindow.ShowDialog();
-            }
-          }, TaskScheduler.FromCurrentSynchronizationContext());
+                Result countryResult =
+                  _results.FirstOrDefault(predicate: result =>
+                                            result.Country.Contains(country.Name));
+                if (countryResult != null) {
+                  var countryWindow = new CountryWindow(countryResult) {
+                    Owner = this
+                  };
+                  _ = countryWindow.ShowDialog();
+                }
+              }, scheduler: TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private void MainWindowClosing(Object sender, System.ComponentModel.CancelEventArgs e) {
-      MessageBoxResult messageBoxResult = 
+      MessageBoxResult messageBoxResult =
         MessageBox.Show(owner: this,
                         messageBoxText: Properties.Resources.ResourceManager.GetString("exit-text"),
                         caption: Properties.Resources.ResourceManager.GetString("exit-caption"),
