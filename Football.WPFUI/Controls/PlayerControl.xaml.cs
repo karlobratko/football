@@ -17,7 +17,7 @@ namespace Football.WPFUI.Controls {
     }
 
     private void Init() {
-      lblName.Content = SimplifyName(Player.Name);
+      lblName.Content = SimplifyName(Player.Name) + $" ({Player.ShirtNumber})";
       if (ImageHelper.ImageExists(fileName: Player.Name))
         imgPlayer.Source = ImageHelper.LoadImage(fileName: Player.Name).ToBitmap();
     }

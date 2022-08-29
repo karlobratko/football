@@ -45,6 +45,7 @@ namespace Football.WPFUI.Windows {
     }
 
     private void Init() {
+      Title = Properties.Resources.ResourceManager.GetString("settings-title");
       PopulateLanguageDDL();
       PopulateGenderRBs();
       PopulateResolutionDDL();

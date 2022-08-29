@@ -17,6 +17,7 @@ namespace Football.WPFUI.Windows {
     }
 
     private void Init() {
+      Title = Player.Name;
       lblName.Content = Player.Name;
       lblShirtNumber.Content = Player.ShirtNumber.ToString();
       lblCaptain.Content = Player.Captain ? "Yes" : "No";
