@@ -199,6 +199,9 @@ namespace Football.WinFormsUI {
 
       _ = control.ContextMenuStrip.Items.Add(value: CreateAddToFavouritesTsmi(control.Player));
 
+      if (_favouritePlayers[_settings.Gender].Contains(item: player))
+        control.MakeFavourite();
+
       control.OnImageChanged += PlayerControlImageChanged(pnlFavPlayers, pnlRankedPlayers);
       control.OnImageRemoved += PlayerControlImageRemoved(pnlFavPlayers, pnlRankedPlayers);
 
@@ -323,6 +326,12 @@ namespace Football.WinFormsUI {
                      _favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl)
                                                         .ToArray());
 
+      pnlPlayers.Controls
+                .OfType<PlayerControl>()
+                .Where(predicate: ctrl => _favouritePlayers[_settings.Gender].Contains(ctrl.Player))
+                .ToList()
+                .ForEach(action: ctrl => ctrl.MakeFavourite());
+
       DisableAddToFavouritesTsmi(players);
     }
 
@@ -399,6 +408,12 @@ namespace Football.WinFormsUI {
                    .AddRange(controls:
                      _favouritePlayers[_settings.Gender].Select(selector: InitFavPlayerControl)
                                                         .ToArray());
+
+      pnlPlayers.Controls
+                .OfType<PlayerControl>()
+                .Where(predicate: control => control.Player.Equals(player))
+                .ToList()
+                .ForEach(action: control => control.UnmakeFavourite());
 
       EnableAddToFavouritesTsmi(player);
     }

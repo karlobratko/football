@@ -44,6 +44,8 @@ namespace Football.WPFUI.Windows {
     private async void Init() {
       SetResolution();
 
+      Title = Properties.Resources.ResourceManager.GetString("main-title");
+
       StartLoading();
       _countries = await _footballRepository.ReadCountries(gender: _settings.Gender);
       _matches = await _footballRepository.ReadMatches(gender: _settings.Gender);
